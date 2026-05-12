@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理者ページ | 星見河りんなのブログ☆</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #fff5f8;
+      color: #444;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .login-box {
+      background: white;
+      border: 1px solid #ffe0e9;
+      border-radius: 14px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.1);
+    }
+    .login-box h1 {
+      font-size: 1rem;
+      color: #e0607a;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+    .login-box .site-name {
+      font-size: 0.75rem;
+      color: #bbb;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-size: 0.78rem;
+      color: #c08090;
+      margin-bottom: 6px;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      background: #fff8fa;
+      border: 1px solid #ffcdd8;
+      border-radius: 6px;
+      color: #555;
+      font-size: 0.95rem;
+      font-family: monospace;
+      outline: none;
+      letter-spacing: 2px;
+    }
+    input[type="password"]:focus {
+      border-color: #ff85a2;
+    }
+
+    .login-btn {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 11px;
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+    .login-btn:hover { opacity: 0.88; }
+
+    .error-msg {
+      margin-top: 12px;
+      color: #c0392b;
+      font-size: 0.8rem;
+      min-height: 1.2em;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .footer-link {
+      color: #c08090;
+      text-decoration: none;
+      font-size: 0.76rem;
+      padding: 0 12px;
+      border-right: 1px solid #ffd0dc;
+      line-height: 1;
+    }
+    .footer-link:last-child { border-right: none; }
+    .site-nav {
+      background: #fff0f4;
+      border-bottom: 2px solid #ffcdd8;
+      display: flex;
+      justify-content: center;
+    }
+    .site-nav a {
+      display: inline-block;
+      padding: 11px 24px;
+      color: #d46080;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-right: 1px solid #ffe0e9;
+    }
+    .site-nav a:first-child { border-left: 1px solid #ffe0e9; }
+    @media (max-width: 520px) {
+      .site-nav a {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.5px;
+      }
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 16px;
+      }
+      .footer-link {
+        width: auto;
+        border-right: none;
+        padding: 2px 0;
+        line-height: 1.8;
+        font-size: 0.72rem;
+      }
+    }
+    @media (max-width: 520px) {
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 8px;
+      }
+      .footer-link {
+        grid-column: span 2;
+        width: auto;
+        border-right: none;
+        padding: 2px 0;
+        line-height: 1.9;
+        font-size: 0.78rem;
+      }
+      .footer-link:nth-child(4) { grid-column: 2 / span 2; }
+      .footer-link:nth-child(5) { grid-column: 4 / span 2; }
+    }
+
+    /* ── 解錠後の表示 ── */
+    #result {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+    }
+    .result-header {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      border-radius: 14px 14px 0 0;
+      padding: 16px 20px;
+      font-size: 0.75rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+    .result-body {
+      background: white;
+      border: 1px solid #ffe0e9;
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.1);
+    }
+    .result-body h2 {
+      font-size: 0.85rem;
+      color: #c08090;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .address-block {
+      background: #fff8fa;
+      border: 1px solid #ffcdd8;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .address-label {
+      font-size: 0.7rem;
+      color: #c08090;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .address-text {
+      font-size: 1.05rem;
+      color: #444;
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+    }
+    .address-note {
+      font-size: 0.75rem;
+      color: #bbb;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .choice-label {
+      font-size: 0.78rem;
+      color: #c08090;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+    .choice-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .choice-btn {
+      flex: 1;
+      padding: 13px 10px;
+      border-radius: 6px;
+      border: 1px solid #ffcdd8;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .choice-btn.go {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      border: none;
+    }
+    .choice-btn.go:hover { opacity: 0.88; }
+    .choice-btn.stay {
+      background: white;
+      color: #c08090;
+    }
+    .choice-btn.stay:hover { background: #fff0f4; }
+
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.75rem;
+    }
+    .back-link a { color: #c08090; text-decoration: none; }
+    .back-link a:hover { color: #e0607a; }
+
+    .maintenance-box {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #ffe0e9;
+      padding: 48px 28px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.08);
+      width: 100%;
+      max-width: 380px;
+    }
+    .maintenance-icon { font-size: 2.6rem; margin-bottom: 16px; }
+    .maintenance-title {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #c08090;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .maintenance-body {
+      font-size: 0.84rem;
+      color: #aaa;
+      line-height: 1.9;
+    }
+  </style>
+</head>
+<body>
+
+<header style="background: linear-gradient(135deg, #ff85a2, #ffb3c6); color: white; text-align: center; padding: 28px 20px 20px;">
+  <div style="font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.1);">星見河りんなのブログ☆</div>
+  <div style="font-size: 0.82rem; margin-top: 6px; opacity: 0.88; letter-spacing: 1px;">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+</header>
+
+<nav class="site-nav">
+  <a href="index.html">HOME</a>
+  <a href="schedule.html">スケジュール</a>
+  <a href="profile.html">プロフィール</a>
+  <a href="contact.html">お問い合わせ</a>
+</nav>
+
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; min-height: 300px;">
+
+  <div class="maintenance-box" id="maintenance-box">
+    <div class="maintenance-icon">🔧</div>
+    <div class="maintenance-title">現在システムメンテナンス中です</div>
+    <div class="maintenance-body">管理ページは現在ご利用いただけません。</div>
+  </div>
+
+  <div class="login-box" id="login-box" style="display:none;">
+    <h1>管理者ログイン</h1>
+    <div class="site-name">星見河りんなのブログ☆ — Admin</div>
+    <label for="pass">パスワード</label>
+    <input type="password" id="pass" placeholder="11桁の英数字" autocomplete="off" />
+    <button class="login-btn" onclick="tryLogin()">ログイン</button>
+    <div class="error-msg" id="error-msg"></div>
+    <div class="back-link" style="margin-top:16px;"><a href="index.html">← ブログに戻る</a></div>
+  </div>
+
+  <div id="result">
+    <div class="result-body" style="border-radius: 14px;">
+      <div style="font-size: 0.7rem; color: #bbb; margin-bottom: 6px; letter-spacing: 1px;">スターライトプロ 旧事務所</div>
+      <div style="font-size: 1.1rem; font-weight: bold; color: #e0607a; margin-bottom: 20px;">ハイツ星見 205号室</div>
+
+      <div style="display: grid; grid-template-columns: 90px 1fr; gap: 0; font-size: 0.85rem; border-top: 1px solid #fff0f4;">
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">所在地</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">東京都星見区かがやき台3丁目15番7号</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">建物名</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">ハイツ星見</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">部屋番号</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">205号室</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">階数</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">2階</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">用途</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">事務所（現在は使用されていません）</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; font-size: 0.78rem;">備考</div>
+        <div style="padding: 10px 12px; color: #aaa; font-size: 0.8rem;">契約終了につき現在空室。</div>
+      </div>
+
+      <div style="margin-top: 16px; text-align: right;">
+        <button class="choice-btn go" style="width: auto; padding: 9px 20px; font-size: 0.82rem;" onclick="showCopyConfirm()">住所をコピー</button>
+      </div>
+    </div>
+    <div class="back-link"><a href="index.html">← ブログに戻る</a></div>
+  </div>
+
+</div><!-- /center-wrap -->
+
+<!-- モーダル -->
+<div id="copy-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:100; align-items:center; justify-content:center;">
+  <div style="background:white; border-radius:14px; border:1px solid #ffe0e9; padding:32px 28px; max-width:320px; width:90%; text-align:center; box-shadow:0 4px 20px rgba(255,133,162,0.2);">
+    <div style="font-size:1rem; font-weight:bold; color:#e0607a; margin-bottom:10px;">助けに行きますか？</div>
+    <div style="font-size:0.82rem; color:#aaa; margin-bottom:24px; line-height:1.7;">東京都星見区かがやき台3丁目15番7号<br>ハイツ星見 205号室</div>
+    <div style="display:flex; gap:12px;">
+      <button onclick="goHelp()" style="flex:1; padding:11px; background:linear-gradient(135deg,#ff85a2,#ffb3c6); border:none; border-radius:6px; color:white; font-size:0.9rem; cursor:pointer; font-family:inherit;">助けに行く</button>
+      <button onclick="closeModal()" style="flex:1; padding:11px; background:white; border:1px solid #ffcdd8; border-radius:6px; color:#c08090; font-size:0.9rem; cursor:pointer; font-family:inherit;">助けに行かない</button>
+    </div>
+  </div>
+</div>
+
+<footer style="background: #fff0f4; border-top: 2px solid #ffcdd8; text-align: center; padding: 24px 20px;">
+  <nav class="footer-nav">
+    <a href="index.html" class="footer-link">HOME</a>
+    <a href="schedule.html" class="footer-link">スケジュール</a>
+    <a href="profile.html" class="footer-link">プロフィール</a>
+    <a href="contact.html" class="footer-link">お問い合わせ</a>
+  </nav>
+  <div style="font-size: 0.72rem; color: #d0a0b0;">© 星見河りんな Official Blog All Rights Reserved.</div>
+</footer>
+
+<script>
+  const CORRECT = '1129rinidle';
+  const isAdminUnlocked = localStorage.getItem('argAdminUnlocked') === 'true';
+  const hasReachedAdmin = localStorage.getItem('argScheduleVisited') === 'true';
+
+  function showLogin() {
+    document.getElementById('maintenance-box').style.display = 'none';
+    document.getElementById('login-box').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+  }
+
+  function showResult() {
+    document.getElementById('maintenance-box').style.display = 'none';
+    document.getElementById('login-box').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+    if (localStorage.getItem('argEnding')) disableCopyBtn();
+  }
+
+  if (hasReachedAdmin) {
+    if (isAdminUnlocked || localStorage.getItem('argEnding')) {
+      showResult();
+    } else {
+      showLogin();
+    }
+  }
+
+  document.getElementById('pass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') tryLogin();
+  });
+
+  function disableCopyBtn() {
+    const btn = document.querySelector('[onclick="showCopyConfirm()"]');
+    if (btn) {
+      btn.disabled = true;
+      btn.style.background = '#ccc';
+      btn.style.cursor = 'default';
+      btn.style.opacity = '0.5';
+      btn.onclick = null;
+    }
+  }
+  function showCopyConfirm() {
+    document.getElementById('copy-modal').style.display = 'flex';
+  }
+  function closeModal() {
+    document.getElementById('copy-modal').style.display = 'none';
+    localStorage.setItem('argEnding', 'true');
+    disableCopyBtn();
+  }
+  function goHelp() {
+    navigator.clipboard.writeText('東京都星見区かがやき台3丁目15番7号 ハイツ星見 205号室').catch(() => {});
+    localStorage.setItem('argEnding', 'bad');
+    document.getElementById('copy-modal').style.display = 'none';
+    disableCopyBtn();
+  }
+
+  function tryLogin() {
+    const val = document.getElementById('pass').value.trim();
+    if (val.toLowerCase() === CORRECT) {
+      localStorage.setItem('argAdminUnlocked', 'true');
+      showResult();
+    } else {
+      document.getElementById('error-msg').textContent = 'パスワードが違います。';
+      document.getElementById('pass').value = '';
+    }
+  }
+
+  if (localStorage.getItem('argEnding')) disableCopyBtn();
+</script>
+</body>
+</html>

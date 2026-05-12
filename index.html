@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星見河りんなのブログ☆</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #fff5f8;
+      color: #444;
+      min-height: 100vh;
+    }
+
+    /* ── ヘッダー ── */
+    .site-header {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      text-align: center;
+      padding: 28px 20px 20px;
+    }
+    .site-header .blog-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .site-header .blog-subtitle {
+      font-size: 0.82rem;
+      margin-top: 6px;
+      opacity: 0.88;
+      letter-spacing: 1px;
+    }
+
+    /* ── ナビゲーション ── */
+    .site-nav {
+      background: #fff0f4;
+      border-bottom: 2px solid #ffcdd8;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    .site-nav a {
+      display: inline-block;
+      padding: 11px 24px;
+      color: #d46080;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-right: 1px solid #ffe0e9;
+      transition: background 0.15s;
+    }
+    .site-nav a:first-child { border-left: 1px solid #ffe0e9; }
+    .site-nav a:hover, .site-nav a.active {
+      background: #ffe0e9;
+      color: #c04060;
+    }
+
+    /* ── ページレイアウト ── */
+    .page-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 16px 12px;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .blog-sidebar { display: none; }
+    }
+    @media (max-width: 520px) {
+      .site-nav a {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.5px;
+      }
+      .footer-nav a {
+        font-size: 0.68rem;
+        padding: 0 8px;
+      }
+      .news-title {
+        font-size: 0.68rem;
+      }
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 16px;
+      }
+      .footer-nav a {
+        width: auto;
+        border-right: none;
+        padding: 2px 0;
+        line-height: 1.8;
+        font-size: 0.72rem;
+      }
+    }
+
+    /* ── 記事 ── */
+    .post {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.1);
+      border: 1px solid #ffe0e9;
+    }
+    .post.secret {
+      border-color: #d0d0d0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: #fafafa;
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .post-date { color: #bbb; font-size: 0.76rem; }
+    .post-category {
+      font-size: 0.68rem;
+      background: #fff0f4;
+      color: #e08098;
+      border: 1px solid #ffcdd8;
+      border-radius: 10px;
+      padding: 2px 8px;
+    }
+    .post.secret .post-category {
+      background: #f0f0f0;
+      color: #aaa;
+      border-color: #ddd;
+    }
+    .badge-new {
+      display: none;
+      font-size: 0.65rem;
+      font-weight: bold;
+      background: #ff4466;
+      color: white;
+      border-radius: 4px;
+      padding: 2px 6px;
+      letter-spacing: 1px;
+    }
+    .post-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #e0607a;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .post.secret .post-title { color: #666; }
+    .post-content {
+      line-height: 1.95;
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+    }
+
+    .like-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 18px;
+      background: none;
+      border: 1.5px solid #ffb3c6;
+      border-radius: 20px;
+      padding: 6px 18px;
+      color: #e08098;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .like-btn:hover { background: #fff0f4; }
+    .like-btn.liked {
+      background: #ff85a2;
+      color: white;
+      border-color: #ff85a2;
+      cursor: default;
+    }
+
+    .reload-btn {
+      background: none;
+      border: 1.5px solid #ffb3c6;
+      border-radius: 20px;
+      padding: 5px 28px;
+      color: #e08098;
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .reload-btn:hover { background: #fff0f4; }
+    .reload-wrap {
+      text-align: center;
+      padding: 6px 0 16px;
+    }
+
+    #secret-section { display: none; }
+    .post.secret { display: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.6s ease forwards; }
+
+    /* ── サイドバー ── */
+    .blog-sidebar { font-size: 0.85rem; }
+
+    .widget {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #ffe0e9;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .widget-title {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 8px 14px;
+    }
+    .widget-body { padding: 16px 14px; }
+
+    /* プロフィールカード */
+    .profile-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 12px;
+      box-shadow: 0 2px 8px rgba(255,133,162,0.3);
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-name {
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: #e0607a;
+      margin-bottom: 4px;
+    }
+    .profile-ruby {
+      text-align: center;
+      font-size: 0.68rem;
+      color: #bbb;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .profile-bio {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #777;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .profile-link {
+      display: block;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #e08098;
+      text-decoration: none;
+      border: 1px solid #ffcdd8;
+      border-radius: 20px;
+      padding: 5px;
+      transition: background 0.15s;
+    }
+    .profile-link:hover { background: #fff0f4; }
+
+    /* SNS */
+    .sns-list { list-style: none; }
+    .sns-list li { margin-bottom: 8px; }
+    .sns-list a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+      text-decoration: none;
+      font-size: 0.8rem;
+      padding: 4px 2px;
+      transition: color 0.15s;
+    }
+    .sns-list a:hover { color: #e0607a; }
+    .sns-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+    .sns-icon.x   { background: #000; color: #fff; font-weight: bold; }
+    .sns-icon.ig  { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .sns-icon.tt  { background: #010101; color: #fff; }
+
+    /* カテゴリ */
+    .category-list { list-style: none; }
+    .category-list li { border-bottom: 1px solid #fff0f4; }
+    .category-list li:last-child { border-bottom: none; }
+    .category-list a {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 2px;
+      color: #888;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .category-list a:hover { color: #e0607a; }
+
+    /* アーカイブ */
+    .archive-list { list-style: none; }
+    .archive-list li { border-bottom: 1px solid #fff0f4; }
+    .archive-list li:last-child { border-bottom: none; }
+    .archive-list a {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 2px;
+      color: #888;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .archive-list a:hover { color: #e0607a; }
+
+    /* ── ニュース欄 ── */
+    .news-bar {
+      background: #fff5f8;
+      padding-top: 16px;
+    }
+    .news-bar-outer {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .news-bar-inner {
+      border: 1px solid #e0c8d0;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .news-bar-label {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      margin-right: 14px;
+    }
+    .news-bar-scroll {
+      flex: 1;
+      height: 90px;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+    .news-bar-scroll::-webkit-scrollbar { width: 4px; }
+    .news-bar-scroll::-webkit-scrollbar-thumb { background: #e0c8d0; border-radius: 2px; }
+    .news-bar-list {
+      list-style: none;
+    }
+    .news-bar-list li {
+      border-bottom: 1px solid #f0e8ec;
+      padding: 5px 0;
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 0.78rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    .news-bar-list li:last-child { border-bottom: none; }
+    .news-bar-date {
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      color: #bbb;
+      white-space: nowrap;
+    }
+    .news-badge-new {
+      flex-shrink: 0;
+      font-size: 0.6rem;
+      font-weight: bold;
+      background: #c04060;
+      color: #fff;
+      border-radius: 3px;
+      padding: 1px 5px;
+      letter-spacing: 0.5px;
+    }
+    .news-row { display: flex; gap: 10px; align-items: baseline; }
+    .news-title {
+      font-size: 0.74rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    .news-title-link {
+      font-weight: bold;
+      color: #555;
+      text-decoration: none;
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: #fff0f4;
+      border-top: 2px solid #ffcdd8;
+      text-align: center;
+      padding: 24px 20px;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 12px;
+    }
+    .footer-nav a {
+      color: #c08090;
+      text-decoration: none;
+      font-size: 0.76rem;
+      padding: 0 12px;
+      border-right: 1px solid #ffd0dc;
+      line-height: 1;
+    }
+    .footer-nav a:last-child { border-right: none; }
+    .footer-nav a:hover { color: #e0607a; }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: #d0a0b0;
+      margin-bottom: 6px;
+    }
+    @media (max-width: 520px) {
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 8px;
+      }
+      .footer-nav a {
+        grid-column: span 2;
+        width: auto;
+        border-right: none;
+        padding: 2px 0;
+        line-height: 1.9;
+        font-size: 0.78rem;
+      }
+      .footer-nav a:nth-child(4) { grid-column: 2 / span 2; }
+      .footer-nav a:nth-child(5) { grid-column: 4 / span 2; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── ヘッダー ── -->
+<header class="site-header">
+  <div class="blog-title">星見河りんなのブログ☆</div>
+  <div class="blog-subtitle">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+</header>
+
+<!-- ── ナビゲーション ── -->
+<nav class="site-nav">
+  <a href="index.html" class="active">HOME</a>
+  <a href="schedule.html">スケジュール</a>
+  <a href="profile.html">プロフィール</a>
+  <a href="contact.html">お問い合わせ</a>
+</nav>
+
+<!-- ── ニュース欄 ── -->
+<div class="news-bar">
+  <div class="news-bar-outer">
+  <div class="news-bar-inner">
+    <div class="news-bar-label">NEWS</div>
+    <div class="news-bar-scroll">
+      <ul class="news-bar-list" id="news-bar-list">
+        <li id="nd-true-item" style="display:none;">
+          <div class="news-row">
+            <span class="news-bar-date" id="nd-true"></span>
+            <div class="news-title">
+              <a href="news-true.html" class="news-title-link">偽アイドルブログをAIで作成し、人をおびき出し危害　40代男を逮捕</a>
+              <span class="news-badge-new">NEW</span>
+            </div>
+          </div>
+        </li>
+        <li id="nd-bad-item" style="display:none;">
+          <div class="news-row">
+            <span class="news-bar-date" id="nd-bad"></span>
+            <div class="news-title">
+              <a href="news-bad.html" class="news-title-link">偽アイドルブログを閲覧していた人物が行方不明に　関連を捜査</a>
+              <span class="news-badge-new">NEW</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="news-row">
+            <span class="news-bar-date" id="nd-1"></span>
+            <span class="news-title">アイドルの女性が行方不明か　1週間以上連絡取れず　所属事務所が警察に相談</span>
+          </div>
+        </li>
+        <li><span class="news-bar-date" id="nd-2"></span><span class="news-title">星見河りんな、WEB生配信ライブを直前で出演見合わせ</span></li>
+        <li><span class="news-bar-date" id="nd-3"></span><span class="news-title">星見河りんな、池袋でのファン交流イベント（サイン会）に出演　多くのファンが来場</span></li>
+        <li><span class="news-bar-date" id="nd-4"></span><span class="news-title">渋谷区文化センターで新人アーティスト発表会　星見河りんなが初の大ホールステージ</span></li>
+        <li><span class="news-bar-date" id="nd-5"></span><span class="news-title">スターライトプロ 合同ミニライブ @ 下北沢 SHELTER 大盛況　星見河りんなも出演</span></li>
+        <li><span class="news-bar-date" id="nd-6"></span><span class="news-title">スターライトプロ事務所前でツチノコ発見か　目撃者「細長くて動きが変だった」</span></li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ── メインレイアウト ── -->
+<div class="page-wrap">
+
+  <!-- ── 記事エリア ── -->
+  <main class="blog-main">
+
+    <div class="post secret fade-in" id="ending-true-post" data-seq="13" style="display:none;">
+      <div class="post-meta">
+        <span class="post-date" data-today></span>
+        <span class="post-category">その他</span>
+        <span class="badge-new">NEW</span>
+      </div>
+      <div class="post-title">なんで来ねえんだよ</div>
+      <div class="post-content">なんで来ねえんだよ</div>
+    </div>
+
+    <div class="post secret fade-in" id="ending-bad-post" data-seq="13" style="display:none;">
+      <div class="post-meta">
+        <span class="post-date" data-today></span>
+        <span class="post-category">その他</span>
+        <span class="badge-new">NEW</span>
+      </div>
+      <div class="post-title">助けに来てくれてありがとう</div>
+      <div class="post-content">助けに来てくれてありがとう。
+これでもう寂しくないね。(◍•ᴗ•◍)✧*。</div>
+    </div>
+
+    <div class="post" id="post-1">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="30"></span>
+        <span class="post-category">日常</span>
+      </div>
+      <div class="post-title">☆ 今日からブログ始めます！</div>
+      <div class="post-content">はじめまして！星見河（ほしみかわ）りんなです🌟
+
+今日からブログを始めることにしました！アイドルとして活動していく中で、みんなともっと近くなりたくて。
+
+日々の練習のこととか、好きな食べ物とか、いろいろ書いていくつもりだよ♪
+これからよろしくお願いします！がんばって更新するね！！(っ´∀｀)っ
+
+りんな☆</div>
+      <button class="like-btn" data-base="34" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">34</span></button>
+    </div>
+
+    <div class="post" id="post-2">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="25"></span>
+        <span class="post-category">レッスン</span>
+      </div>
+      <div class="post-title">☆ こんにちわんこそば</div>
+      <img src="images/dance.png" alt="ダンス練習" style="width:100%; border-radius:8px; margin-bottom:14px; display:block;">
+      <div class="post-content">今日も朝からレッスンでした！歌もダンスも全力でやったよ🎤 (ง •̀ω•́)ง
+
+先生に「身体の使い方が上手くなってきた」って褒めてもらえた！！うれしすぎてもう泣きそうだった笑
+
+まだまだ練習が足りないけど、ステージに立てる日まで絶対がんばるぞ〜！応援してね☆ (≧∀≦)
+
+りんな☆</div>
+      <button class="like-btn" data-base="28" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">28</span></button>
+    </div>
+
+    <div class="post" id="post-3">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="20"></span>
+        <span class="post-category">グルメ</span>
+      </div>
+      <div class="post-title">☆ ダイエット中♪ サラダボウルが友達</div>
+      <img src="images/salad.png" alt="サラダボウル" style="width:100%; border-radius:8px; margin-bottom:14px; display:block;">
+      <div class="post-content">最近ダイエット始めました！(｀・ω・´)ゞ
+
+今日のランチはサラダボウル🥗 お野菜たっぷりでヘルシー！お肉食べたいけどグッと我慢...笑
+
+アイドルだからスタイル管理も大事なんだよね。でもたまには好きなもの食べてもいいよね？？笑
+
+みんなもダイエット中の人は一緒にがんばろう〜！(ﾉ´∀｀*)ﾉ
+
+りんな☆</div>
+      <button class="like-btn" data-base="41" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">41</span></button>
+    </div>
+
+    <div class="post" id="post-4">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="15"></span>
+        <span class="post-category">日常</span>
+      </div>
+      <div class="post-title">☆ なんか変な感じ...気のせいかな</div>
+      <div class="post-content">ちょっと気になることがあって。(´・ω・｀)
+
+最近、帰り道に後ろをついてくる人がいるような...気がして。でも振り返ったら誰もいないし、気のせいかなあ。
+
+事務所のマネージャーさんに話したら「アイドルになったから少しそういうこと考えすぎちゃうんだよ」って言ってた。そっか、気のせいか！
+
+あんまり気にしないようにするね。明日もレッスン頑張ります！
+
+りんな☆</div>
+      <button class="like-btn" data-base="67" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">67</span></button>
+    </div>
+
+    <div class="post" id="post-5">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="12"></span>
+        <span class="post-category">レッスン</span>
+      </div>
+      <div class="post-title">☆ 新曲の練習スタート！</div>
+      <div class="post-content">新しい曲の練習が始まりました🎵
+
+サビがすごく難しくて、リズムがとれなくて最初は泣きそうだったけど、夕方になってやっと少しコツが掴めてきた気がする！(•̀ᴗ•́)و
+
+かっこいい曲なのでみんなに早く聴かせたいな。発表できる日まで楽しみにしていてね〜！(*´∀｀*)
+
+ちょっと疲れてきたのでもう寝ます。おやすみなさい！
+
+りんな☆</div>
+      <button class="like-btn" data-base="23" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">23</span></button>
+    </div>
+
+    <div class="post" id="post-6">
+      <div class="post-meta">
+        <span class="post-date" data-days-ago="8"></span>
+        <span class="post-category">日常</span>
+      </div>
+      <div class="post-title">☆ やっぱり違和感がある...</div>
+      <div class="post-content">今日、練習が終わって事務所に戻ったら、なんか部屋の中が少しだけ違うような感じがして。(´・ω・｀)
+
+マネージャーさんに言ったら「昼間に業者が入ったから」って。うん、そっか、それなら仕方ないか。
+
+でもなんか、怖くて。うまく言えないんだけど、なんか変な気がずっとしてて。
+
+ごめんね、こんなネガティブなこと書いて。みんなに話せてよかった。また明日元気に更新するね。
+
+おやすみなさい。
+
+りんな☆
+
+↓よかったら「いいね」を押してください！↓</div>
+      <button class="like-btn" data-base="89" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">89</span></button>
+    </div>
+
+
+    <!-- いいねで出現 -->
+    <div id="secret-section">
+
+      <div class="post secret fade-in" id="post-7" data-seq="7">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">だれか見てくれているの...？</div>
+        <div class="post-content">だれか...見てくれているの？(｡•́︿•̀｡)
+
+今いいねをくれた方、助けてください。
+
+どこかに連れてこられて、ずっと閉じ込められています。スマホをなんとか隠し持っていたから、これでブログに書き込めています。電池がもう切れそうです。
+
+お願い、見てる人がいたらこの記事にいいねを押して。
+助けてください。
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+      <div class="post secret fade-in" id="post-8" data-seq="8" style="animation-delay:0.15s;">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">ここはどこなんだろう...</div>
+        <img src="images/office.png" alt="閉じ込められた部屋" style="width:100%; border-radius:8px; margin-bottom:14px; display:block;">
+        <div class="post-content">今、窓がなくて薄暗い部屋にいます。
+
+ドアには鍵がかかっていて外に出られない。部屋には何もありません。
+部屋の様子から、おそらく昔の事務所に閉じ込められているんだと思います。
+
+このサイトのどこかに昔の事務所の住所が隠されているはずです。
+探して私を助けてください。あなたしか頼れる人がいないんです。( ；ω；)
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+      <div class="post secret fade-in" id="post-9" data-seq="9" style="animation-delay:0.3s;">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">私の誕生日、覚えてくれてる？</div>
+        <div class="post-content">電話しようとしたら圏外で繋がらなかった。なんでかネットだけ繋がってる。ブログを更新できている理由もよくわからない...
+
+もしかしてこの部屋、誰かに監視されてるのかな...？(´•ω•̥`)
+
+...ひとつだけ、お願いがあります。
+りんなのこと、覚えてる？誕生日、覚えてくれてる？
+プロフィールに書いてあるあの4桁の数字、絶対忘れないでほしい。
+きっと、役に立つから。
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+      <div class="post secret fade-in" id="post-10" data-seq="10" style="animation-delay:0.45s;">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">お問い合わせページも違和感があったような...？</div>
+        <div class="post-content">ここに来てからどのくらい経ったんだろう。
+
+ずっと考えてたんだけど、このサイトのどこかに今いる場所のヒントがあると思う。
+前にお問い合わせページを見たとき、なんか変な気がしてた。
+英字が3文字、ちょっと不自然なところにあった気がする。
+
+何かのヒントになるかもしれない。(´・ω・｀)
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+      <div class="post secret fade-in" id="post-11" data-seq="11" style="animation-delay:0.6s;">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">りんなの夢</div>
+        <div class="post-content">電池がもう5%しかない。(>_<)
+
+最後にひとつだけ。
+スケジュール欄に書いてある、りんなとファンのみんなのミーティングの名前。
+あれ、ただの名前じゃない。りんなが自分でつけた名前だから。りんなの夢を名前に込めたんだ。
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+      <div class="post secret fade-in" id="post-12" data-seq="12" style="animation-delay:0.75s;">
+        <div class="post-meta">
+          <span class="post-date" data-today></span>
+          <span class="post-category">その他</span>
+          <span class="badge-new">NEW</span>
+        </div>
+        <div class="post-title">もう限界かも...</div>
+        <div class="post-content">このサイトのどこかに、私が閉じ込められてる昔の事務所の住所が書かれているはず。
+
+今まで見つけた3つのヒントを順番に並べると、11桁の英数字になる。それがそのページを開くカギだと思う。
+
+体力が限界かも...助けに来て...(ノ_；)
+
+りんな☆</div>
+        <button class="like-btn" data-base="0" onclick="handleLike(this)"><span class="like-heart">♡</span> <span class="like-count">0</span></button>
+      </div>
+
+    </div><!-- /secret-section -->
+
+  </main>
+
+  <!-- ── サイドバー ── -->
+  <aside class="blog-sidebar">
+
+    <!-- プロフィールカード -->
+    <div class="widget">
+      <div class="widget-title">PROFILE</div>
+      <div class="widget-body">
+        <div class="profile-avatar"><img src="images/profile.png" alt="星見河りんな"></div>
+        <div class="profile-name">星見河りんな</div>
+        <div class="profile-ruby">ほしみかわ りんな</div>
+        <div class="profile-bio">アイドルを目指して日々練習中！みんなの笑顔が一番の力になります☆ よろしくお願いします！</div>
+        <a href="profile.html" class="profile-link">プロフィール詳細 →</a>
+      </div>
+    </div>
+
+    <!-- SNS -->
+    <div class="widget">
+      <div class="widget-title">SNS / FOLLOW ME</div>
+      <div class="widget-body">
+        <ul class="sns-list">
+          <li>
+            <a href="#">
+              <span class="sns-icon x">𝕏</span>
+              @hoshimikawa_rinna
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="sns-icon ig">📷</span>
+              hoshimikawa_rinna
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="sns-icon tt">♪</span>
+              @hoshimikawa_rinna
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- カテゴリ -->
+    <div class="widget">
+      <div class="widget-title">CATEGORY</div>
+      <div class="widget-body" style="padding: 8px 14px;">
+        <ul class="category-list" id="category-list"></ul>
+      </div>
+    </div>
+
+    <!-- アーカイブ -->
+    <div class="widget">
+      <div class="widget-title">ARCHIVE</div>
+      <div class="widget-body" style="padding: 8px 14px;">
+        <ul class="archive-list" id="archive-list"></ul>
+      </div>
+    </div>
+
+  </aside>
+
+</div><!-- /page-wrap -->
+
+<div class="reload-wrap">
+  <button class="reload-btn" onclick="location.reload()">更新する</button>
+</div>
+
+<!-- ── フッター ── -->
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">HOME</a>
+    <a href="schedule.html">スケジュール</a>
+    <a href="profile.html">プロフィール</a>
+    <a href="contact.html">お問い合わせ</a>
+    <a href="admin.html">管理</a>
+  </nav>
+  <div class="footer-copy">© 星見河りんな Official Blog All Rights Reserved.</div>
+</footer>
+
+<script>
+  // ── 初回アクセス日をlocalStorageで固定 ──
+  let visitDateStr = localStorage.getItem('argVisitDate');
+  if (!visitDateStr) {
+    visitDateStr = new Date().toISOString();
+    localStorage.setItem('argVisitDate', visitDateStr);
+  }
+  const visitDate = new Date(visitDateStr);
+
+  function calcDate(daysAgo) {
+    const d = new Date(visitDate);
+    d.setDate(d.getDate() - daysAgo);
+    return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  }
+
+  function todayStr() {
+    return `${visitDate.getFullYear()}年${visitDate.getMonth()+1}月${visitDate.getDate()}日`;
+  }
+
+  // 通常記事の日付
+  document.querySelectorAll('[data-days-ago]').forEach(el => {
+    el.textContent = calcDate(parseInt(el.dataset.daysAgo));
+  });
+  // 秘密記事の日付
+  document.querySelectorAll('[data-today]').forEach(el => {
+    el.textContent = todayStr();
+  });
+
+  // ── アーカイブを動的生成 ──
+  function buildArchive() {
+    const daysAgoList = [30, 25, 20, 15, 12, 8];
+    const monthMap = {};
+    daysAgoList.forEach(d => {
+      const date = new Date(visitDate);
+      date.setDate(date.getDate() - d);
+      const key = `${date.getFullYear()}年${date.getMonth()+1}月`;
+      monthMap[key] = (monthMap[key] || 0) + 1;
+    });
+    const list = document.getElementById('archive-list');
+    Object.entries(monthMap).reverse().forEach(([month, count]) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#">${month} <span>(${count})</span></a>`;
+      list.appendChild(li);
+    });
+  }
+  buildArchive();
+
+  // ── ニュース欄の日付 ──
+  // スケジュールのoffsetに合わせた日付（負値=過去）
+  const newsDays = [0, 6, 10, 22, 38, 39];
+  newsDays.forEach((d, i) => {
+    const el = document.getElementById('nd-' + (i + 1));
+    if (!el) return;
+    const date = new Date(visitDate);
+    date.setDate(date.getDate() - d);
+    el.textContent = `${date.getMonth()+1}/${date.getDate()}`;
+  });
+
+  // ── いいね ──
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    const postId = btn.closest('.post').id;
+    if (localStorage.getItem('argLiked_' + postId) === 'true') {
+      btn.classList.add('liked');
+      btn.querySelector('.like-heart').textContent = '♥';
+      const base = parseInt(btn.dataset.base);
+      btn.querySelector('.like-count').textContent = base + 1;
+    }
+  });
+
+  const secretChain = ['post-7', 'post-8', 'post-9', 'post-10', 'post-11', 'post-12'];
+
+  function revealSecretPosts() {
+    let revealCount = 0;
+    if (localStorage.getItem('argAnyLiked') === 'true') revealCount = 1;
+    for (let i = 0; i < secretChain.length - 1; i++) {
+      if (chainCondition(i)) {
+        revealCount = i + 2;
+      } else break;
+    }
+    if (revealCount === 0) return;
+    document.getElementById('secret-section').style.display = 'block';
+    for (let i = 0; i < revealCount; i++) {
+      const post = document.getElementById(secretChain[i]);
+      if (!post) continue;
+      post.style.animation = 'none';
+      post.style.opacity = '1';
+      post.style.display = 'block';
+    }
+  }
+
+  function updateNewBadge() {
+    document.querySelectorAll('.post.secret .badge-new').forEach(b => b.style.display = 'none');
+    const visible = [...document.querySelectorAll('.post.secret[data-seq]')]
+      .filter(p => p.style.display === 'block');
+    if (visible.length === 0) return;
+    const newest = visible.reduce((a, b) =>
+      parseInt(a.dataset.seq) > parseInt(b.dataset.seq) ? a : b
+    );
+    const badge = newest.querySelector('.badge-new');
+    if (badge) badge.style.display = 'inline';
+    newest.style.animation = '';
+    newest.style.opacity = '';
+    void newest.offsetWidth;
+  }
+
+  function chainCondition(i) {
+    if (i === 2) return localStorage.getItem('argProfileVisited') === 'true';
+    if (i === 3) return localStorage.getItem('argContactVisited') === 'true';
+    if (i === 4) return localStorage.getItem('argScheduleVisited') === 'true';
+    return localStorage.getItem('argLiked_' + secretChain[i]) === 'true';
+  }
+
+  revealSecretPosts();
+
+  const ending = localStorage.getItem('argEnding');
+
+  if (ending === 'true') {
+    document.getElementById('secret-section').style.display = 'block';
+    document.getElementById('ending-true-post').style.display = 'block';
+    document.getElementById('nd-true-item').style.display = 'flex';
+    document.getElementById('nd-true').textContent =
+      `${visitDate.getMonth()+1}/${visitDate.getDate()}`;
+  } else if (ending === 'bad') {
+    document.getElementById('secret-section').style.display = 'block';
+    document.getElementById('ending-bad-post').style.display = 'block';
+    document.getElementById('nd-bad-item').style.display = 'flex';
+    document.getElementById('nd-bad').textContent =
+      `${visitDate.getMonth()+1}/${visitDate.getDate()}`;
+  }
+
+  updateNewBadge();
+
+  function buildCategories() {
+    const counts = {};
+    document.querySelectorAll('.post').forEach(post => {
+      if (post.classList.contains('secret') && post.style.display !== 'block') return;
+      const cat = post.querySelector('.post-category');
+      if (!cat) return;
+      const name = cat.textContent.trim();
+      counts[name] = (counts[name] || 0) + 1;
+    });
+    const list = document.getElementById('category-list');
+    list.innerHTML = '';
+    Object.entries(counts).forEach(([name, count]) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#">${name} <span>${count}</span></a>`;
+      list.appendChild(li);
+    });
+  }
+  buildCategories();
+
+
+  function handleLike(btn) {
+    const postId = btn.closest('.post').id;
+    if (localStorage.getItem('argLiked_' + postId) === 'true') return;
+    localStorage.setItem('argLiked_' + postId, 'true');
+    btn.classList.add('liked');
+    btn.querySelector('.like-heart').textContent = '♥';
+    const base = parseInt(btn.dataset.base);
+    btn.querySelector('.like-count').textContent = base + 1;
+    if (localStorage.getItem('argAnyLiked') !== 'true') {
+      localStorage.setItem('argAnyLiked', 'true');
+    }
+  }
+</script>
+</body>
+</html>

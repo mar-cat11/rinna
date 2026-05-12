@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ウェブ速報</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #f4f4f4;
+      color: #222;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: #1a1a2e;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .site-header .logo { font-size: 1.1rem; font-weight: bold; letter-spacing: 2px; color: #e8c84a; }
+    .site-header .tagline { font-size: 0.7rem; color: #888; letter-spacing: 1px; }
+    .site-nav-bar {
+      background: #222;
+      display: flex;
+      padding: 0 20px;
+      font-size: 0.75rem;
+    }
+    .site-nav-bar a {
+      color: #bbb;
+      text-decoration: none;
+      padding: 8px 14px;
+      display: inline-block;
+      border-right: 1px solid #333;
+      transition: background 0.15s;
+    }
+    .site-nav-bar a:first-child { border-left: 1px solid #333; }
+    .site-nav-bar a:hover { background: #333; color: #fff; }
+
+    .container { max-width: 760px; margin: 0 auto; padding: 28px 16px 48px; }
+
+    .article-category {
+      display: inline-block;
+      background: #1a6bb5;
+      color: white;
+      font-size: 0.68rem;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .article-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #111;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .article-meta {
+      font-size: 0.75rem;
+      color: #999;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 16px;
+    }
+    .article-body { font-size: 0.93rem; line-height: 2; color: #333; }
+    .article-body p { margin-bottom: 20px; }
+    .article-body .indent {
+      padding-left: 1em;
+      border-left: 3px solid #ddd;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .end-label {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 1px solid #ddd;
+    }
+    .end-label span {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1a1a2e;
+      letter-spacing: 8px;
+      margin-bottom: 8px;
+      text-shadow: none;
+    }
+    .restart-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 0.98rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .restart-link:hover { color: #333; }
+
+    footer {
+      background: #1a1a2e;
+      color: #666;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.72rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">◆ ウェブ速報</div>
+    <div class="tagline">WEB SOKUHO — 国内 / 社会 / エンタメ</div>
+  </div>
+</header>
+<nav class="site-nav-bar">
+  <a href="#">トップ</a>
+  <a href="#">社会</a>
+  <a href="#">国内</a>
+  <a href="#">エンタメ</a>
+  <a href="#">スポーツ</a>
+</nav>
+
+<div class="container">
+
+  <div class="article-category">社会</div>
+  <h1 class="article-title">「星見河りんなのブログ」偽アイドルブログをAIで作成し、人をおびき出し危害　40代男を逮捕　「ゲーム感覚だった」「誰でもよかった」</h1>
+  <div class="article-meta">
+    <span id="pub-date"></span>
+    <span>ウェブ速報 編集部</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>インターネット上に架空のアイドルのブログを開設し、複数の閲覧者を自宅に誘き出して危害を加えていたとして、警察は都内在住の40代の男を逮捕した。被害者は複数にのぼるとみられ、警察が全容の解明を進めている。</p>
+
+    <p>調べによると、男は「星見河りんな」と名乗る架空のアイドルのブログを作成。AIを使って生成したプロフィール画像や文章を用いてアイドルを演じ、ブログの読者に対して「助けてほしい」「来てほしい」などと訴えかけ、住所へ誘導していたとみられる。</p>
+
+    <p>捜査の結果、「星見河りんな」という人物は実在せず、ブログに使用されていたプロフィール画像・文章・投稿のすべてがAIによって生成されたものであることが確認された。所属事務所とされていた「スターライトプロ」も実在しない。</p>
+
+    <p>男は「ゲーム感覚でやっていた。誰でもよかった」と供述しており、捜査関係者は「インターネット上の感情を利用した非常に悪質な手口だ」と述べた。</p>
+
+    <p>警察はブログへのアクセス記録をもとに、被害に遭った可能性がある人物の特定を進めている。</p>
+
+  </div>
+
+  <div class="end-label">
+    <span>TRUE END</span>
+    <p style="margin-top:10px; font-size:0.88rem; color:#555; letter-spacing:1px;">あなたは危機を回避することができました。<br>ゲームクリアです。お疲れさまでした。</p>
+  </div>
+
+  <a class="restart-link" href="#" onclick="resetEnding()">← 最初から読み直す</a>
+
+</div>
+
+<footer>© ウェブ速報 All Rights Reserved.</footer>
+
+<script>
+  const d = new Date();
+  document.getElementById('pub-date').textContent =
+    `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+
+  function resetEnding() {
+    localStorage.clear();
+    location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

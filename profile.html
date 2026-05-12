@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プロフィール | 星見河りんなのブログ☆</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #fff5f8;
+      color: #444;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      text-align: center;
+      padding: 28px 20px 20px;
+    }
+    .site-header .blog-title { font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .site-header .blog-subtitle { font-size: 0.82rem; margin-top: 6px; opacity: 0.88; letter-spacing: 1px; }
+
+    .site-nav {
+      background: #fff0f4;
+      border-bottom: 2px solid #ffcdd8;
+      display: flex;
+      justify-content: center;
+    }
+    .site-nav a {
+      display: inline-block;
+      padding: 11px 24px;
+      color: #d46080;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-right: 1px solid #ffe0e9;
+      transition: background 0.15s;
+    }
+    .site-nav a:first-child { border-left: 1px solid #ffe0e9; }
+    .site-nav a:hover, .site-nav a.active { background: #ffe0e9; color: #c04060; }
+
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+
+    .page-heading {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #e0607a;
+      letter-spacing: 3px;
+      border-left: 4px solid #ff85a2;
+      padding-left: 12px;
+      margin-bottom: 24px;
+    }
+
+    /* 上部カード */
+    .profile-top {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #ffe0e9;
+      padding: 32px 28px;
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.1);
+    }
+    @media (max-width: 520px) {
+      .site-nav a {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.5px;
+      }
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 16px;
+      }
+      .footer-nav a {
+        width: auto;
+        border-right: none;
+        font-size: 0.72rem;
+        padding: 2px 0;
+        line-height: 1.8;
+      }
+      .profile-top { flex-direction: column; align-items: center; text-align: center; }
+    }
+    .profile-avatar-lg {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(255,133,162,0.35);
+    }
+    .profile-avatar-lg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-top-info h1 {
+      font-size: 1.5rem;
+      color: #e0607a;
+      margin-bottom: 4px;
+    }
+    .profile-top-info .ruby {
+      font-size: 0.78rem;
+      color: #bbb;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+    }
+    .profile-top-info .catch {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: #666;
+      font-style: italic;
+    }
+    .profile-top-info .catch::before { content: '「'; }
+    .profile-top-info .catch::after  { content: '」'; }
+
+    /* データテーブル */
+    .profile-section {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #ffe0e9;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.08);
+    }
+    .section-title {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      font-size: 0.78rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 9px 18px;
+    }
+    table.profile-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    table.profile-table tr { border-bottom: 1px solid #fff0f4; }
+    table.profile-table tr:last-child { border-bottom: none; }
+    table.profile-table th {
+      width: 120px;
+      background: #fff8fa;
+      color: #c08090;
+      font-weight: bold;
+      font-size: 0.78rem;
+      padding: 12px 16px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.profile-table td {
+      padding: 12px 16px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    /* メッセージ */
+    .message-box {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid #ffe0e9;
+      padding: 24px 28px;
+      font-size: 0.9rem;
+      line-height: 2;
+      color: #555;
+      white-space: pre-wrap;
+      box-shadow: 0 2px 10px rgba(255,133,162,0.08);
+    }
+    .message-sig {
+      text-align: right;
+      color: #e0607a;
+      font-size: 0.88rem;
+      margin-top: 12px;
+    }
+
+    /* フッター */
+    footer {
+      background: #fff0f4;
+      border-top: 2px solid #ffcdd8;
+      text-align: center;
+      padding: 24px 20px;
+    }
+    .footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin-bottom: 12px; }
+    .footer-nav a { color: #c08090; text-decoration: none; font-size: 0.76rem; padding: 0 12px; border-right: 1px solid #ffd0dc; line-height: 1; }
+    .footer-nav a:last-child { border-right: none; }
+    .footer-nav a:hover { color: #e0607a; }
+    .footer-copy { font-size: 0.72rem; color: #d0a0b0; margin-bottom: 6px; }
+    @media (max-width: 520px) {
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 8px;
+      }
+      .footer-nav a {
+        grid-column: span 2;
+        width: auto;
+        border-right: none;
+        font-size: 0.78rem;
+        padding: 2px 0;
+        line-height: 1.9;
+      }
+      .footer-nav a:nth-child(4) { grid-column: 2 / span 2; }
+      .footer-nav a:nth-child(5) { grid-column: 4 / span 2; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="blog-title">星見河りんなのブログ☆</div>
+  <div class="blog-subtitle">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+</header>
+
+<nav class="site-nav">
+  <a href="index.html">HOME</a>
+  <a href="schedule.html">スケジュール</a>
+  <a href="profile.html" class="active">プロフィール</a>
+  <a href="contact.html">お問い合わせ</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-heading">PROFILE</div>
+
+  <!-- 上部カード -->
+  <div class="profile-top">
+    <div class="profile-avatar-lg"><img src="images/profile.png" alt="星見河りんな"></div>
+    <div class="profile-top-info">
+      <h1>星見河 りんな</h1>
+      <div class="ruby">HOSHIMIKAWA RINNA</div>
+      <div class="catch">みんなの笑顔が、りんなの一番の力になります</div>
+    </div>
+  </div>
+
+  <!-- 基本情報 -->
+  <div class="profile-section">
+    <div class="section-title">りんなのきほん</div>
+    <table class="profile-table">
+      <tr><th>本名</th><td>非公開</td></tr>
+      <tr><th>生年月日</th><td>11月29日（良い肉の日と覚えてください！）</td></tr>
+      <tr><th>出身地</th><td>神奈川県</td></tr>
+      <tr><th>身長</th><td>158 cm</td></tr>
+      <tr><th>血液型</th><td>A型</td></tr>
+      <tr><th>所属事務所</th><td>スターライトプロ</td></tr>
+    </table>
+  </div>
+
+  <!-- すきなこと -->
+  <div class="profile-section">
+    <div class="section-title">すきなこと・きらいなこと</div>
+    <table class="profile-table">
+      <tr><th>趣味</th><td>歌、ダンス、映画鑑賞、カフェめぐり</td></tr>
+      <tr><th>特技</th><td>バク転（練習中！）、人の名前をすぐ覚える</td></tr>
+      <tr><th>好きな食べ物</th><td>いちごのショートケーキ、グラノーラ、タピオカ</td></tr>
+      <tr><th>苦手な食べ物</th><td>にんじん（克服中...）</td></tr>
+      <tr><th>好きな色</th><td>ピンク、ラベンダー</td></tr>
+      <tr><th>好きなアーティスト</th><td>非公開（影響を受けすぎちゃうので笑）</td></tr>
+    </table>
+  </div>
+
+  <!-- ひとこと -->
+  <div class="profile-section">
+    <div class="section-title">りんなからひとこと</div>
+    <div class="message-box">はじめまして、星見河りんなです！
+
+歌とダンスが大好きで、アイドルになることを夢見て毎日練習しています。
+正直、最初はすごく自信がなかったけど、応援してくれる人がいるから前に進めています。
+
+このブログでは日々の練習のことや、ちょっとした日常をつづっていくつもりです。
+一緒に夢を目指してがんばっていけたら嬉しいです！
+
+みんな、よろしくね☆</div>
+    <div class="message-sig">— 星見河 りんな ☆</div>
+  </div>
+
+</div>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">HOME</a>
+    <a href="schedule.html">スケジュール</a>
+    <a href="profile.html">プロフィール</a>
+    <a href="contact.html">お問い合わせ</a>
+    <a href="admin.html">管理</a>
+  </nav>
+  <div class="footer-copy">© 星見河りんな Official Blog All Rights Reserved.</div>
+</footer>
+
+<script>
+  if (localStorage.getItem('argLiked_post-8') === 'true') {
+    localStorage.setItem('argProfileVisited', 'true');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ウェブ速報</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #f4f4f4;
+      color: #222;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: #1a1a2e;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .site-header .logo {
+      font-size: 1.1rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #e8c84a;
+    }
+    .site-header .tagline {
+      font-size: 0.7rem;
+      color: #888;
+      letter-spacing: 1px;
+    }
+    .site-nav-bar {
+      background: #222;
+      display: flex;
+      gap: 0;
+      padding: 0 20px;
+      font-size: 0.75rem;
+    }
+    .site-nav-bar a {
+      color: #bbb;
+      text-decoration: none;
+      padding: 8px 14px;
+      display: inline-block;
+      border-right: 1px solid #333;
+      transition: background 0.15s;
+    }
+    .site-nav-bar a:first-child { border-left: 1px solid #333; }
+    .site-nav-bar a:hover { background: #333; color: #fff; }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 28px 16px 48px;
+    }
+
+    .article-category {
+      display: inline-block;
+      background: #c0392b;
+      color: white;
+      font-size: 0.68rem;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .article-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #111;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .article-meta {
+      font-size: 0.75rem;
+      color: #999;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      gap: 16px;
+    }
+    .article-body {
+      font-size: 0.93rem;
+      line-height: 2;
+      color: #333;
+    }
+    .article-body p {
+      margin-bottom: 20px;
+    }
+    .article-body .indent {
+      padding-left: 1em;
+      border-left: 3px solid #ddd;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .related-box {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 18px 20px;
+      margin-top: 32px;
+    }
+    .related-box .related-label {
+      font-size: 0.72rem;
+      font-weight: bold;
+      color: #999;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .related-box ul { list-style: none; }
+    .related-box ul li {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 8px 0;
+      font-size: 0.82rem;
+      color: #555;
+    }
+    .related-box ul li:last-child { border-bottom: none; }
+
+    .end-label {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 32px;
+      border-top: 1px solid #ddd;
+    }
+    .end-label span {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #1a1a2e;
+      letter-spacing: 8px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 16px rgba(26,26,46,0.25);
+    }
+    .end-label p {
+      font-size: 0.78rem;
+      color: #bbb;
+      letter-spacing: 1px;
+    }
+    .restart-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 0.98rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .restart-link:hover { color: #333; }
+
+    footer {
+      background: #1a1a2e;
+      color: #666;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.72rem;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo">◆ ウェブ速報</div>
+    <div class="tagline">WEB SOKUHO — 国内 / 社会 / エンタメ</div>
+  </div>
+</header>
+<nav class="site-nav-bar">
+  <a href="#">トップ</a>
+  <a href="#">社会</a>
+  <a href="#">国内</a>
+  <a href="#">エンタメ</a>
+  <a href="#">スポーツ</a>
+</nav>
+
+<div class="container">
+
+  <div class="article-category">社会</div>
+  <h1 class="article-title">アイドルブログ「星見河りんなのブログ☆」を閲覧していた人物が行方不明に　関連を捜査</h1>
+  <div class="article-meta">
+    <span id="pub-date"></span>
+    <span>ウェブ速報 編集部</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>「星見河りんな」と名乗るアイドルのブログを閲覧していた人物が行方不明になったとして、家族が警察に捜索願を提出していたことが分かった。</p>
+
+    <p>家族によると、行方不明者は失踪直前に同ブログを閲覧していた形跡があったという。失踪前には「助けたい人がいる」と家族に話していたとされるが、その後連絡が取れなくなった。</p>
+
+    <div class="indent">「最後に会ったとき、スマホの画面を見ながら『行かないといけない』と繰り返していました。止める間もなかった」（家族のコメント）</div>
+
+    <p>警察は行方不明者の通信記録を解析。同ブログへのアクセス履歴が多数確認されており、何らかの関連がある可能性も視野に調査を進めている。</p>
+
+    <p>問題のブログは「星見河りんなのブログ☆」と題されたもの。捜査関係者が確認したところ、「星見河りんな」という人物の実在は確認できず、所属先とされる「スターライトプロ」についても登記・実態ともに存在しないことが判明したという。</p>
+
+    <p>専門家は「近年、架空のアイドルやインフルエンサーを装ったブログやSNSを使い、ファンを誘引する手口が増えている。閲覧者側も、過度な感情移入には注意が必要だ」と指摘している。</p>
+
+  </div>
+
+  <div class="end-label">
+    <span>BAD END</span>
+    <p style="margin-top:10px; font-size:0.88rem; color:#555; letter-spacing:1px;">あなたは行方不明になってしまいました。</p>
+  </div>
+
+  <a class="restart-link" href="#" onclick="resetEnding()">← 最初から読み直す</a>
+
+</div>
+
+<footer>© ウェブ速報 All Rights Reserved.</footer>
+
+<script>
+  const d = new Date();
+  document.getElementById('pub-date').textContent =
+    `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+
+  function resetEnding() {
+    localStorage.clear();
+    location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

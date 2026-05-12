@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スケジュール | 星見河りんなのブログ☆</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', 'Yu Gothic', sans-serif;
+      background: #fff5f8;
+      color: #444;
+      min-height: 100vh;
+    }
+    .site-header {
+      background: linear-gradient(135deg, #ff85a2, #ffb3c6);
+      color: white;
+      text-align: center;
+      padding: 28px 20px 20px;
+    }
+    .site-header .blog-title { font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .site-header .blog-subtitle { font-size: 0.82rem; margin-top: 6px; opacity: 0.88; letter-spacing: 1px; }
+
+    .site-nav {
+      background: #fff0f4;
+      border-bottom: 2px solid #ffcdd8;
+      display: flex;
+      justify-content: center;
+    }
+    .site-nav a {
+      display: inline-block;
+      padding: 11px 24px;
+      color: #d46080;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-right: 1px solid #ffe0e9;
+      transition: background 0.15s;
+    }
+    .site-nav a:first-child { border-left: 1px solid #ffe0e9; }
+    .site-nav a:hover, .site-nav a.active { background: #ffe0e9; color: #c04060; }
+
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px 16px 48px;
+    }
+
+    .page-heading {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #e0607a;
+      letter-spacing: 3px;
+      border-left: 4px solid #ff85a2;
+      padding-left: 12px;
+      margin-bottom: 8px;
+    }
+    .page-desc {
+      font-size: 0.83rem;
+      color: #aaa;
+      margin-bottom: 24px;
+      padding-left: 16px;
+    }
+
+    .notice-box {
+      background: #f8f0f0;
+      border: 1px solid #e8c0c8;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.82rem;
+      color: #b07080;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    /* 月ブロック */
+    .month-block { margin-bottom: 28px; }
+    .month-label {
+      font-size: 0.88rem;
+      font-weight: bold;
+      color: #e0607a;
+      border-bottom: 2px solid #ffcdd8;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* イベント行 */
+    .event-row {
+      background: white;
+      border: 1px solid #ffe0e9;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+    .event-row.past {
+      background: #f8f8f8;
+      border-color: #e8e8e8;
+      opacity: 0.7;
+    }
+    .event-row.cancelled {
+      background: #fdf5f5;
+      border-color: #e8c0c8;
+    }
+    .event-row.pending {
+      background: #fffaf0;
+      border-color: #f0dda0;
+    }
+    @media (max-width: 520px) {
+      .site-nav a {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.5px;
+      }
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 16px;
+      }
+      .footer-nav a {
+        width: auto;
+        border-right: none;
+        font-size: 0.72rem;
+        padding: 2px 0;
+        line-height: 1.8;
+      }
+      .event-row { grid-template-columns: 1fr; gap: 6px; }
+    }
+
+    .event-date {
+      font-size: 0.8rem;
+      color: #aaa;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+    .event-row.past .event-date { color: #ccc; }
+
+    .event-info .event-title {
+      font-size: 0.92rem;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .event-row.past .event-title { color: #aaa; }
+    .event-info .event-detail {
+      font-size: 0.78rem;
+      color: #aaa;
+    }
+
+    .event-badge {
+      font-size: 0.68rem;
+      font-weight: bold;
+      border-radius: 4px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .badge-done       { background: #eee;    color: #aaa; }
+    .badge-cancelled  { background: #f5dde0; color: #c07080; }
+    .badge-pending    { background: #fef0c0; color: #b09030; }
+    .badge-upcoming   { background: #fff0f4; color: #e0607a; border: 1px solid #ffcdd8; }
+
+    footer {
+      background: #fff0f4;
+      border-top: 2px solid #ffcdd8;
+      text-align: center;
+      padding: 24px 20px;
+    }
+    .footer-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin-bottom: 12px; }
+    .footer-nav a { color: #c08090; text-decoration: none; font-size: 0.76rem; padding: 0 12px; border-right: 1px solid #ffd0dc; line-height: 1; }
+    .footer-nav a:last-child { border-right: none; }
+    .footer-nav a:hover { color: #e0607a; }
+    .footer-copy { font-size: 0.72rem; color: #d0a0b0; margin-bottom: 6px; }
+    .footer-admin a { font-size: 0.65rem; color: #e0d0d8; text-decoration: none; }
+    .footer-admin a:hover { color: #c0a0b0; }
+    @media (max-width: 520px) {
+      .footer-nav {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        max-width: 320px;
+        margin: 0 auto 12px;
+        row-gap: 8px;
+      }
+      .footer-nav a {
+        grid-column: span 2;
+        width: auto;
+        border-right: none;
+        font-size: 0.78rem;
+        padding: 2px 0;
+        line-height: 1.9;
+      }
+      .footer-nav a:nth-child(4) { grid-column: 2 / span 2; }
+      .footer-nav a:nth-child(5) { grid-column: 4 / span 2; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="blog-title">星見河りんなのブログ☆</div>
+  <div class="blog-subtitle">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+</header>
+
+<nav class="site-nav">
+  <a href="index.html">HOME</a>
+  <a href="schedule.html" class="active">スケジュール</a>
+  <a href="profile.html">プロフィール</a>
+  <a href="contact.html">お問い合わせ</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-heading">SCHEDULE</div>
+  <div class="page-desc">ライブ・イベント・出演情報</div>
+
+  <div class="notice-box" id="notice-box"></div>
+
+  <div id="schedule-area"></div>
+
+</div>
+
+<footer>
+  <nav class="footer-nav">
+    <a href="index.html">HOME</a>
+    <a href="schedule.html">スケジュール</a>
+    <a href="profile.html">プロフィール</a>
+    <a href="contact.html">お問い合わせ</a>
+    <a href="admin.html">管理</a>
+  </nav>
+  <div class="footer-copy">© 星見河りんな Official Blog All Rights Reserved.</div>
+</footer>
+
+<script>
+  if (localStorage.getItem('argContactVisited') === 'true') {
+    localStorage.setItem('argScheduleVisited', 'true');
+  }
+
+  let visitDateStr = localStorage.getItem('argVisitDate');
+  if (!visitDateStr) {
+    visitDateStr = new Date().toISOString();
+    localStorage.setItem('argVisitDate', visitDateStr);
+  }
+  const base = new Date(visitDateStr);
+
+  function addDays(d, n) {
+    const r = new Date(d);
+    r.setDate(r.getDate() + n);
+    return r;
+  }
+
+  function fmt(d) {
+    const w = ['日','月','火','水','木','金','土'];
+    return `${d.getMonth()+1}/${d.getDate()}（${w[d.getDay()]}）`;
+  }
+
+  function fmtMonth(d) {
+    return `${d.getFullYear()}年${d.getMonth()+1}月`;
+  }
+
+  // イベントデータ（base日を基準に相対日数で定義）
+  const events = [
+    {
+      offset: -38,
+      title: 'スターライトプロ 合同ミニライブ',
+      detail: '東京・下北沢 SHELTER',
+      status: 'done'
+    },
+    {
+      offset: -22,
+      title: '新人アーティスト発表会',
+      detail: '渋谷区文化センター 大ホール',
+      status: 'done'
+    },
+    {
+      offset: -10,
+      title: 'ファン交流イベント（サイン会）',
+      detail: '池袋 東武百貨店 イベントスペース',
+      status: 'done'
+    },
+    {
+      offset: -6,
+      title: 'WEB生配信ライブ',
+      detail: 'ニコニコ生放送 ／ YouTube Live',
+      status: 'cancelled',
+      note: '出演見合わせ'
+    },
+    {
+      offset: 9,
+      title: 'ファンミーティング vol.1 "idle"',
+      detail: '会場・時間 調整中',
+      status: 'pending'
+    },
+    {
+      offset: 17,
+      title: '新曲発表イベント',
+      detail: '会場・時間 調整中',
+      status: 'pending'
+    },
+    {
+      offset: 25,
+      title: 'スターライトプロ 夏祭りライブ',
+      detail: '会場・詳細は決まり次第お知らせします',
+      status: 'upcoming'
+    }
+  ];
+
+  // ステータス → バッジ
+  function badge(e) {
+    if (e.status === 'done')      return `<span class="event-badge badge-done">終了</span>`;
+    if (e.status === 'cancelled') return `<span class="event-badge badge-cancelled">${e.note || '中止'}</span>`;
+    if (e.status === 'pending')   return `<span class="event-badge badge-pending">調整中</span>`;
+    return `<span class="event-badge badge-upcoming">予定</span>`;
+  }
+
+  // 月別にグループ化して描画
+  function render() {
+    const monthMap = {};
+    events.forEach(e => {
+      const d = addDays(base, e.offset);
+      const mk = fmtMonth(d);
+      if (!monthMap[mk]) monthMap[mk] = [];
+      monthMap[mk].push({ ...e, date: d });
+    });
+
+    const area = document.getElementById('schedule-area');
+    Object.entries(monthMap).forEach(([month, list]) => {
+      const block = document.createElement('div');
+      block.className = 'month-block';
+      block.innerHTML = `<div class="month-label">${month}</div>`;
+      list.forEach(e => {
+        const rowClass = e.status === 'done' ? 'past'
+                       : e.status === 'cancelled' ? 'cancelled'
+                       : e.status === 'pending'   ? 'pending' : '';
+        block.innerHTML += `
+          <div class="event-row ${rowClass}">
+            <div class="event-date">${fmt(e.date)}</div>
+            <div class="event-info">
+              <div class="event-title">${e.title}</div>
+              <div class="event-detail">${e.detail}</div>
+            </div>
+            ${badge(e)}
+          </div>`;
+      });
+      area.appendChild(block);
+    });
+  }
+
+  // お知らせ
+  const noticeDate = fmt(addDays(base, -6));
+  document.getElementById('notice-box').innerHTML =
+    `<strong>【お知らせ】</strong>${noticeDate} 予定の「WEB生配信ライブ」は出演者の都合により出演見合わせとなりました。詳細は決まり次第お知らせします。`;
+
+  render();
+</script>
+</body>
+</html>
