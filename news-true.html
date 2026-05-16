@@ -299,8 +299,9 @@
       : `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
 
   function resetEnding() {
+    const lang = localStorage.getItem('argLang');
     localStorage.clear();
-    location.href = 'index.html';
+    location.href = lang === 'en' ? 'index.html?lang=en' : 'index.html';
   }
 </script>
 </body>
