@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ウェブ速報</title>
+  <title>WEB REPORT</title>
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -41,6 +41,61 @@
     }
     .site-nav-bar a:first-child { border-left: 1px solid #333; }
     .site-nav-bar a:hover { background: #333; color: #fff; }
+
+    /* 言語プルダウン */
+    .lang-bar {
+      background: #2a2a3e;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: flex-end;
+      padding: 4px 16px;
+    }
+    .lang-dropdown { position: relative; }
+    .lang-trigger {
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: bold;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #333;
+      color: #bbb;
+      cursor: pointer;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lang-trigger:hover { background: #444; }
+    .lang-trigger::after { content: '▾'; font-size: 0.65rem; }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      background: #2a2a3e;
+      border: 1px solid #444;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 50;
+      min-width: 70px;
+    }
+    .lang-menu.open { display: block; }
+    .lang-menu button {
+      display: block;
+      width: 100%;
+      padding: 8px 14px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      color: #bbb;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+    .lang-menu button:hover { background: #3a3a5e; color: #fff; }
+    .lang-menu button.active { color: #e8c84a; }
 
     .container { max-width: 760px; margin: 0 auto; padding: 28px 16px 48px; }
 
@@ -106,6 +161,24 @@
     }
     .restart-link:hover { color: #333; }
 
+    .share-x-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 13px 28px;
+      background: #000;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s;
+    }
+    .share-x-btn:hover { opacity: 0.8; }
+    .share-wrap { text-align: center; margin-top: 16px; }
+
     footer {
       background: #1a1a2e;
       color: #666;
@@ -120,56 +193,110 @@
 
 <header class="site-header">
   <div>
-    <div class="logo">◆ ウェブ速報</div>
-    <div class="tagline">WEB SOKUHO — 国内 / 社会 / エンタメ</div>
+    <div class="logo">◆ WEB REPORT</div>
+    <div class="tagline" data-ja="WEB REPORT — 国内 / 社会 / エンタメ" data-en="WEB REPORT — Domestic / Society / Entertainment">WEB REPORT — 国内 / 社会 / エンタメ</div>
   </div>
 </header>
 <nav class="site-nav-bar">
-  <a href="#">トップ</a>
-  <a href="#">社会</a>
-  <a href="#">国内</a>
-  <a href="#">エンタメ</a>
-  <a href="#">スポーツ</a>
+  <a href="#" data-ja="トップ" data-en="Top">トップ</a>
+  <a href="#" data-ja="社会" data-en="Society">社会</a>
+  <a href="#" data-ja="国内" data-en="Domestic">国内</a>
+  <a href="#" data-ja="エンタメ" data-en="Entertainment">エンタメ</a>
+  <a href="#" data-ja="スポーツ" data-en="Sports">スポーツ</a>
 </nav>
+
+<div class="lang-bar">
+  <div class="lang-dropdown">
+    <button class="lang-trigger" id="lang-trigger" onclick="toggleLangMenu()">Languages</button>
+    <div class="lang-menu" id="lang-menu">
+      <button onclick="setLang('ja')" id="lang-ja">JA</button>
+      <button onclick="setLang('en')" id="lang-en">EN</button>
+    </div>
+  </div>
+</div>
 
 <div class="container">
 
-  <div class="article-category">社会</div>
-  <h1 class="article-title">「星見河りんなのブログ」偽アイドルブログをAIで作成し、人をおびき出し危害　40代男を逮捕　「ゲーム感覚だった」「誰でもよかった」</h1>
+  <div class="article-category" data-ja="社会" data-en="SOCIETY">社会</div>
+  <h1 class="article-title" data-ja="「星見河りんなのブログ☆」偽アイドルブログをAIで作成し、人をおびき出し危害　40代男を逮捕　「ゲーム感覚だった」「誰でもよかった」" data-en='"Rinna Hoshimikawa Official Blog ☆": Man in 40s Arrested for Luring Victims via AI Fake Idol Blog — "It Was Just a Game" "Anyone Would Do"'>「星見河りんなのブログ☆」偽アイドルブログをAIで作成し、人をおびき出し危害　40代男を逮捕　「ゲーム感覚だった」「誰でもよかった」</h1>
   <div class="article-meta">
     <span id="pub-date"></span>
-    <span>ウェブ速報 編集部</span>
+    <span data-ja="ウェブ速報 編集部" data-en="WEB REPORT Editorial Team">ウェブ速報 編集部</span>
   </div>
 
   <div class="article-body">
 
-    <p>インターネット上に架空のアイドルのブログを開設し、複数の閲覧者を自宅に誘き出して危害を加えていたとして、警察は都内在住の40代の男を逮捕した。被害者は複数にのぼるとみられ、警察が全容の解明を進めている。</p>
+    <p data-ja="インターネット上に架空のアイドルのブログを開設し、複数の閲覧者を自宅に誘き出して危害を加えていたとして、警察は都内在住の40代の男を逮捕した。被害者は複数にのぼるとみられ、警察が全容の解明を進めている。" data-en="Police have arrested a man in his 40s living in Tokyo for allegedly creating a fake idol blog online, luring multiple readers to a location, and harming them. Authorities believe there are multiple victims and are working to uncover the full extent of the case.">インターネット上に架空のアイドルのブログを開設し、複数の閲覧者を自宅に誘き出して危害を加えていたとして、警察は都内在住の40代の男を逮捕した。被害者は複数にのぼるとみられ、警察が全容の解明を進めている。</p>
 
-    <p>調べによると、男は「星見河りんな」と名乗る架空のアイドルのブログを作成。AIを使って生成したプロフィール画像や文章を用いてアイドルを演じ、ブログの読者に対して「助けてほしい」「来てほしい」などと訴えかけ、住所へ誘導していたとみられる。</p>
+    <p data-ja='調べによると、男は「星見河りんな」と名乗る架空のアイドルのブログを作成。AIを使って生成したプロフィール画像や文章を用いてアイドルを演じ、ブログの読者に対して「助けてほしい」「来てほしい」などと訴えかけ、住所へ誘導していたとみられる。' data-en='According to investigators, the man created a fake idol blog under the name "Rinna Hoshimikawa," using AI-generated profile images and text to pose as an idol. He allegedly appealed to readers with messages such as "please help me" and "please come," leading them to a specific address.'>調べによると、男は「星見河りんな」と名乗る架空のアイドルのブログを作成。AIを使って生成したプロフィール画像や文章を用いてアイドルを演じ、ブログの読者に対して「助けてほしい」「来てほしい」などと訴えかけ、住所へ誘導していたとみられる。</p>
 
-    <p>捜査の結果、「星見河りんな」という人物は実在せず、ブログに使用されていたプロフィール画像・文章・投稿のすべてがAIによって生成されたものであることが確認された。所属事務所とされていた「スターライトプロ」も実在しない。</p>
+    <p data-ja='捜査の結果、「星見河りんな」という人物は実在せず、ブログに使用されていたプロフィール画像・文章・投稿のすべてがAIによって生成されたものであることが確認された。所属事務所とされていた「スターライトプロ」も実在しない。' data-en='Investigation confirmed that "Rinna Hoshimikawa" does not exist, and that all profile images, text, and posts on the blog were AI-generated. The agency listed on the blog, "Starlight Pro," was also found to be fictitious.'>捜査の結果、「星見河りんな」という人物は実在せず、ブログに使用されていたプロフィール画像・文章・投稿のすべてがAIによって生成されたものであることが確認された。所属事務所とされていた「スターライトプロ」も実在しない。</p>
 
-    <p>男は「ゲーム感覚でやっていた。誰でもよかった」と供述しており、捜査関係者は「インターネット上の感情を利用した非常に悪質な手口だ」と述べた。</p>
+    <p data-ja='男は「ゲーム感覚でやっていた。誰でもよかった」と供述しており、捜査関係者は「インターネット上の感情を利用した非常に悪質な手口だ」と述べた。' data-en='The man reportedly stated, "I was doing it like a game. Anyone would have done." An investigator commented, "This was an extremely malicious scheme that exploited people&apos;s emotions online."'>男は「ゲーム感覚でやっていた。誰でもよかった」と供述しており、捜査関係者は「インターネット上の感情を利用した非常に悪質な手口だ」と述べた。</p>
 
-    <p>警察はブログへのアクセス記録をもとに、被害に遭った可能性がある人物の特定を進めている。</p>
+    <p data-ja="警察はブログへのアクセス記録をもとに、被害に遭った可能性がある人物の特定を進めている。" data-en="Police are analyzing the blog's access records to identify other potential victims.">警察はブログへのアクセス記録をもとに、被害に遭った可能性がある人物の特定を進めている。</p>
 
   </div>
 
   <div class="end-label">
     <span>TRUE END</span>
-    <p style="margin-top:10px; font-size:0.88rem; color:#555; letter-spacing:1px;">あなたは危機を回避することができました。<br>ゲームクリアです。お疲れさまでした。</p>
+    <p style="margin-top:10px; font-size:0.88rem; color:#555; letter-spacing:1px;" data-ja="あなたは危機を回避することができました。ゲームクリアです。お疲れさまでした。" data-en="You avoided the danger. Congratulations on clearing the game.">あなたは危機を回避することができました。ゲームクリアです。お疲れさまでした。</p>
   </div>
 
-  <a class="restart-link" href="#" onclick="resetEnding()">← 最初から読み直す</a>
+  <div class="share-wrap">
+    <a class="share-x-btn" id="share-x-btn" href="#" target="_blank" rel="noopener">
+      𝕏 <span data-ja="Xに投稿する" data-en="Post on X">Xに投稿する</span>
+    </a>
+  </div>
+
+  <a class="restart-link" href="#" onclick="resetEnding()" data-ja="← 最初から読み直す" data-en="← Reset Pages">← 最初から読み直す</a>
 
 </div>
 
-<footer>© ウェブ速報 All Rights Reserved.</footer>
+<footer>© WEB REPORT All Rights Reserved.</footer>
 
 <script>
+  function toggleLangMenu() {
+    document.getElementById('lang-menu').classList.toggle('open');
+  }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.lang-dropdown')) {
+      document.getElementById('lang-menu').classList.remove('open');
+    }
+  });
+  function setLang(lang) {
+    localStorage.setItem('argLang', lang);
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ja;
+    });
+    document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-menu').classList.remove('open');
+    updateShareLink(lang);
+  }
+  const paramLang = new URLSearchParams(location.search).get('lang');
+  const savedLang = paramLang || localStorage.getItem('argLang') || 'ja';
+
+  const shareTextJa = 'なんか、おかしなアイドルブログを見つけたんだけど...';
+  const shareTextEn = 'I found this unusual idol blog...';
+  const shareUrl = 'https://mar-cat11.github.io/rinna/news-true.html';
+  function updateShareLink(lang) {
+    const text = lang === 'en' ? shareTextEn : shareTextJa;
+    document.getElementById('share-x-btn').href =
+      'https://x.com/intent/post?text=' + encodeURIComponent(text + '\n' + shareUrl);
+  }
+
+  if (savedLang === 'en') setLang('en');
+  else {
+    document.getElementById('lang-ja').classList.add('active');
+    updateShareLink('ja');
+  }
+
   const d = new Date();
   document.getElementById('pub-date').textContent =
-    `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+    savedLang === 'en'
+      ? `${d.toLocaleString('en-US', {month: 'long'})} ${d.getDate()}, ${d.getFullYear()}`
+      : `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
 
   function resetEnding() {
     localStorage.clear();

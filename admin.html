@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>管理者ページ | 星見河りんなのブログ☆</title>
+  <title>管理ページ | 星見河りんなのブログ☆</title>
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -253,6 +253,61 @@
     .back-link a { color: #c08090; text-decoration: none; }
     .back-link a:hover { color: #e0607a; }
 
+    /* ── 言語プルダウン ── */
+    .lang-bar {
+      background: #fff8fa;
+      border-bottom: 1px solid #ffcdd8;
+      display: flex;
+      justify-content: flex-end;
+      padding: 4px 16px;
+    }
+    .lang-dropdown { position: relative; }
+    .lang-trigger {
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: bold;
+      border: 1px solid #ffcdd8;
+      border-radius: 4px;
+      background: white;
+      color: #c08090;
+      cursor: pointer;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lang-trigger:hover { background: #fff0f4; }
+    .lang-trigger::after { content: '▾'; font-size: 0.65rem; }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      background: white;
+      border: 1px solid #ffcdd8;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(255,133,162,0.15);
+      z-index: 50;
+      min-width: 70px;
+    }
+    .lang-menu.open { display: block; }
+    .lang-menu button {
+      display: block;
+      width: 100%;
+      padding: 8px 14px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      color: #c08090;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+    .lang-menu button:hover { background: #fff0f4; color: #e0607a; }
+    .lang-menu button.active { color: #e0607a; }
+
     .maintenance-box {
       background: white;
       border-radius: 14px;
@@ -281,60 +336,70 @@
 <body>
 
 <header style="background: linear-gradient(135deg, #ff85a2, #ffb3c6); color: white; text-align: center; padding: 28px 20px 20px;">
-  <div style="font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.1);">星見河りんなのブログ☆</div>
-  <div style="font-size: 0.82rem; margin-top: 6px; opacity: 0.88; letter-spacing: 1px;">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+  <div style="font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; text-shadow: 0 1px 4px rgba(0,0,0,0.1);" data-ja="星見河りんなのブログ☆" data-en="Rinna Hoshimikawa Official Blog ☆">星見河りんなのブログ☆</div>
+  <div style="font-size: 0.82rem; margin-top: 6px; opacity: 0.88; letter-spacing: 1px;" data-ja="最強アイドルへの道 〜 輝く未来を目指して ✦" data-en="The Road to the Greatest Japanese Idol 〜 Aiming for a Shining Future ✦">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
 </header>
 
 <nav class="site-nav">
   <a href="index.html">HOME</a>
-  <a href="schedule.html">スケジュール</a>
-  <a href="profile.html">プロフィール</a>
-  <a href="contact.html">お問い合わせ</a>
+  <a href="schedule.html" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+  <a href="profile.html" data-ja="プロフィール" data-en="Profile">プロフィール</a>
+  <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
 </nav>
+
+<div class="lang-bar">
+  <div class="lang-dropdown">
+    <button class="lang-trigger" id="lang-trigger" onclick="toggleLangMenu()">Languages</button>
+    <div class="lang-menu" id="lang-menu">
+      <button onclick="setLang('ja')" id="lang-ja">JA</button>
+      <button onclick="setLang('en')" id="lang-en">EN</button>
+    </div>
+  </div>
+</div>
 
 <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; min-height: 300px;">
 
   <div class="maintenance-box" id="maintenance-box">
     <div class="maintenance-icon">🔧</div>
-    <div class="maintenance-title">現在システムメンテナンス中です</div>
-    <div class="maintenance-body">管理ページは現在ご利用いただけません。</div>
+    <div class="maintenance-title" data-ja="現在システムメンテナンス中です" data-en="System Maintenance in Progress">現在システムメンテナンス中です</div>
+    <div class="maintenance-body" data-ja="管理ページは現在ご利用いただけません。" data-en="The admin page is currently unavailable.">管理ページは現在ご利用いただけません。</div>
   </div>
 
   <div class="login-box" id="login-box" style="display:none;">
-    <h1>管理者ログイン</h1>
-    <div class="site-name">星見河りんなのブログ☆ — Admin</div>
-    <label for="pass">パスワード</label>
-    <input type="password" id="pass" placeholder="11桁の英数字" autocomplete="off" />
-    <button class="login-btn" onclick="tryLogin()">ログイン</button>
+    <h1 data-ja="管理者ログイン" data-en="Admin Login">管理者ログイン</h1>
+    <div class="site-name" data-ja="星見河りんなのブログ☆ — Admin" data-en="Rinna Hoshimikawa Official Blog ☆ — Admin">星見河りんなのブログ☆ — Admin</div>
+    <label for="pass" data-ja="パスワード" data-en="Password">パスワード</label>
+    <input type="password" id="pass" placeholder="11桁の英数字" autocomplete="off" data-placeholder-ja="11桁の英数字" data-placeholder-en="11-char alphanums" />
+    <button class="login-btn" onclick="tryLogin()" data-ja="ログイン" data-en="Login">ログイン</button>
     <div class="error-msg" id="error-msg"></div>
-    <div class="back-link" style="margin-top:16px;"><a href="index.html">← ブログに戻る</a></div>
+    <div class="back-link" style="margin-top:16px;"><a href="index.html" data-ja="← ブログに戻る" data-en="← Back to Blog">← ブログに戻る</a></div>
   </div>
 
   <div id="result">
     <div class="result-body" style="border-radius: 14px;">
-      <div style="font-size: 0.7rem; color: #bbb; margin-bottom: 6px; letter-spacing: 1px;">スターライトプロ 旧事務所</div>
-      <div style="font-size: 1.1rem; font-weight: bold; color: #e0607a; margin-bottom: 20px;">ハイツ星見 205号室</div>
+      <div style="font-size: 0.7rem; color: #bbb; margin-bottom: 6px; letter-spacing: 1px;" data-ja="スターライトプロ 旧事務所" data-en="Starlight Pro — Former Office">スターライトプロ 旧事務所</div>
+      <div style="font-size: 1.1rem; font-weight: bold; color: #e0607a; margin-bottom: 20px;" data-ja="ハイツ星見 205号室" data-en="Haits Hoshimi, Room 205">ハイツ星見 205号室</div>
 
       <div style="display: grid; grid-template-columns: 90px 1fr; gap: 0; font-size: 0.85rem; border-top: 1px solid #fff0f4;">
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">所在地</div>
-        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">東京都星見区かがやき台3丁目15番7号</div>
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">建物名</div>
-        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">ハイツ星見</div>
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">部屋番号</div>
-        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">205号室</div>
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">階数</div>
-        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">2階</div>
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;">用途</div>
-        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;">事務所（現在は使用されていません）</div>
-        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; font-size: 0.78rem;">備考</div>
-        <div style="padding: 10px 12px; color: #aaa; font-size: 0.8rem;">契約終了につき現在空室。</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;" data-ja="所在地" data-en="Address">所在地</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;" data-ja="東京都星見区かがやき台3丁目15番7号" data-en="3-15-7 Kagayakidai, Hoshimi Ward, Tokyo">東京都星見区かがやき台3丁目15番7号</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;" data-ja="建物名" data-en="Building">建物名</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;" data-ja="ハイツ星見" data-en="Haits Hoshimi">ハイツ星見</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;" data-ja="部屋番号" data-en="Room">部屋番号</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;" data-ja="205号室" data-en="Room 205">205号室</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;" data-ja="階数" data-en="Floor">階数</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;" data-ja="2階" data-en="2nd Floor">2階</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; border-bottom: 1px solid #fff0f4; font-size: 0.78rem;" data-ja="用途" data-en="Use">用途</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #fff0f4; color: #444;" data-ja="事務所（現在は使用されていません）" data-en="Office (no longer in use)">事務所（現在は使用されていません）</div>
+        <div style="background: #fff8fa; color: #c08090; font-weight: bold; padding: 10px 12px; font-size: 0.78rem;" data-ja="備考" data-en="Note">備考</div>
+        <div style="padding: 10px 12px; color: #aaa; font-size: 0.8rem;" data-ja="契約終了につき現在空室。" data-en="Vacant. Lease has ended.">契約終了につき現在空室。</div>
       </div>
 
       <div style="margin-top: 16px; text-align: right;">
-        <button class="choice-btn go" style="width: auto; padding: 9px 20px; font-size: 0.82rem;" onclick="showCopyConfirm()">住所をコピー</button>
+        <button class="choice-btn go" style="width: auto; padding: 9px 20px; font-size: 0.82rem;" onclick="showCopyConfirm()" data-ja="住所をコピー" data-en="Copy Address">住所をコピー</button>
       </div>
     </div>
-    <div class="back-link"><a href="index.html">← ブログに戻る</a></div>
+    <div class="back-link"><a href="index.html" data-ja="← ブログに戻る" data-en="← Back to Blog">← ブログに戻る</a></div>
   </div>
 
 </div><!-- /center-wrap -->
@@ -342,11 +407,11 @@
 <!-- モーダル -->
 <div id="copy-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:100; align-items:center; justify-content:center;">
   <div style="background:white; border-radius:14px; border:1px solid #ffe0e9; padding:32px 28px; max-width:320px; width:90%; text-align:center; box-shadow:0 4px 20px rgba(255,133,162,0.2);">
-    <div style="font-size:1rem; font-weight:bold; color:#e0607a; margin-bottom:10px;">助けに行きますか？</div>
-    <div style="font-size:0.82rem; color:#aaa; margin-bottom:24px; line-height:1.7;">東京都星見区かがやき台3丁目15番7号<br>ハイツ星見 205号室</div>
+    <div style="font-size:1rem; font-weight:bold; color:#e0607a; margin-bottom:10px;" data-ja="助けに行きますか？" data-en="Will you go to save her?">助けに行きますか？</div>
+    <div style="font-size:0.82rem; color:#aaa; margin-bottom:24px; line-height:1.7;" data-ja-html="東京都星見区かがやき台3丁目15番7号<br>ハイツ星見 205号室" data-en-html="3-15-7 Kagayakidai, Hoshimi Ward, Tokyo<br>Haits Hoshimi, Room 205">東京都星見区かがやき台3丁目15番7号<br>ハイツ星見 205号室</div>
     <div style="display:flex; gap:12px;">
-      <button onclick="goHelp()" style="flex:1; padding:11px; background:linear-gradient(135deg,#ff85a2,#ffb3c6); border:none; border-radius:6px; color:white; font-size:0.9rem; cursor:pointer; font-family:inherit;">助けに行く</button>
-      <button onclick="closeModal()" style="flex:1; padding:11px; background:white; border:1px solid #ffcdd8; border-radius:6px; color:#c08090; font-size:0.9rem; cursor:pointer; font-family:inherit;">助けに行かない</button>
+      <button onclick="goHelp()" style="flex:1; padding:11px; background:linear-gradient(135deg,#ff85a2,#ffb3c6); border:none; border-radius:6px; color:white; font-size:0.9rem; cursor:pointer; font-family:inherit;" data-ja="助けに行く" data-en="Go to save her">助けに行く</button>
+      <button onclick="closeModal()" style="flex:1; padding:11px; background:white; border:1px solid #ffcdd8; border-radius:6px; color:#c08090; font-size:0.9rem; cursor:pointer; font-family:inherit;" data-ja="助けに行かない" data-en="Don't go">助けに行かない</button>
     </div>
   </div>
 </div>
@@ -354,14 +419,44 @@
 <footer style="background: #fff0f4; border-top: 2px solid #ffcdd8; text-align: center; padding: 24px 20px;">
   <nav class="footer-nav">
     <a href="index.html" class="footer-link">HOME</a>
-    <a href="schedule.html" class="footer-link">スケジュール</a>
-    <a href="profile.html" class="footer-link">プロフィール</a>
-    <a href="contact.html" class="footer-link">お問い合わせ</a>
+    <a href="schedule.html" class="footer-link" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+    <a href="profile.html" class="footer-link" data-ja="プロフィール" data-en="Profile">プロフィール</a>
+    <a href="contact.html" class="footer-link" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+    <a href="admin.html" class="footer-link" data-ja="管理" data-en="Admin">管理</a>
   </nav>
-  <div style="font-size: 0.72rem; color: #d0a0b0;">© 星見河りんな Official Blog All Rights Reserved.</div>
+  <div style="font-size: 0.72rem; color: #d0a0b0;" data-ja="© 星見河りんな Official Blog All Rights Reserved." data-en="© Rinna Hoshimikawa Official Blog All Rights Reserved.">© 星見河りんな Official Blog All Rights Reserved.</div>
 </footer>
 
 <script>
+  // ── 言語切り替え ──
+  function toggleLangMenu() {
+    document.getElementById('lang-menu').classList.toggle('open');
+  }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.lang-dropdown')) {
+      document.getElementById('lang-menu').classList.remove('open');
+    }
+  });
+  function setLang(lang) {
+    localStorage.setItem('argLang', lang);
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ja;
+    });
+    document.querySelectorAll('[data-ja-html]').forEach(el => {
+      el.innerHTML = lang === 'en' ? el.dataset.enHtml : el.dataset.jaHtml;
+    });
+    document.querySelectorAll('[data-placeholder-ja]').forEach(el => {
+      el.placeholder = lang === 'en' ? el.dataset.placeholderEn : el.dataset.placeholderJa;
+    });
+    document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-menu').classList.remove('open');
+  }
+  const paramLang = new URLSearchParams(location.search).get('lang');
+  const savedLang = paramLang || localStorage.getItem('argLang') || 'ja';
+  if (savedLang === 'en') setLang('en');
+  else document.getElementById('lang-ja').classList.add('active');
+
   const CORRECT = '1129rinidle';
   const isAdminUnlocked = localStorage.getItem('argAdminUnlocked') === 'true';
   const hasReachedAdmin = localStorage.getItem('argScheduleVisited') === 'true';
@@ -422,7 +517,8 @@
       localStorage.setItem('argAdminUnlocked', 'true');
       showResult();
     } else {
-      document.getElementById('error-msg').textContent = 'パスワードが違います。';
+      const lang = localStorage.getItem('argLang') || 'ja';
+      document.getElementById('error-msg').textContent = lang === 'en' ? 'Incorrect password.' : 'パスワードが違います。';
       document.getElementById('pass').value = '';
     }
   }

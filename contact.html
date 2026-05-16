@@ -44,31 +44,70 @@
     .site-nav a:first-child { border-left: 1px solid #ffe0e9; }
     .site-nav a:hover, .site-nav a.active { background: #ffe0e9; color: #c04060; }
 
+    /* 言語プルダウン */
+    .lang-bar {
+      background: #fff8fa;
+      border-bottom: 1px solid #ffcdd8;
+      display: flex;
+      justify-content: flex-end;
+      padding: 4px 16px;
+    }
+    .lang-dropdown { position: relative; }
+    .lang-trigger {
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: bold;
+      border: 1px solid #ffcdd8;
+      border-radius: 4px;
+      background: white;
+      color: #c08090;
+      cursor: pointer;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lang-trigger:hover { background: #fff0f4; }
+    .lang-trigger::after { content: '▾'; font-size: 0.65rem; }
+    .lang-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 4px);
+      background: white;
+      border: 1px solid #ffcdd8;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(255,133,162,0.15);
+      z-index: 50;
+      min-width: 70px;
+    }
+    .lang-menu.open { display: block; }
+    .lang-menu button {
+      display: block;
+      width: 100%;
+      padding: 8px 14px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: bold;
+      background: none;
+      border: none;
+      color: #c08090;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+    .lang-menu button:hover { background: #fff0f4; color: #e0607a; }
+    .lang-menu button.active { color: #e0607a; }
+
     .page-wrap {
       max-width: 680px;
       margin: 0 auto;
       padding: 32px 16px 48px;
     }
     @media (max-width: 520px) {
-      .site-nav a {
-        padding: 10px 12px;
-        font-size: 0.72rem;
-        letter-spacing: 0.5px;
-      }
-      .footer-nav {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 320px;
-        margin: 0 auto 12px;
-        row-gap: 16px;
-      }
-      .footer-nav a {
-        width: auto;
-        border-right: none;
-        font-size: 0.72rem;
-        padding: 2px 0;
-        line-height: 1.8;
-      }
+      .site-nav a { padding: 10px 12px; font-size: 0.72rem; letter-spacing: 0.5px; }
+      .footer-nav { display: grid; grid-template-columns: repeat(3, 1fr); max-width: 320px; margin: 0 auto 12px; row-gap: 16px; }
+      .footer-nav a { width: auto; border-right: none; font-size: 0.72rem; padding: 2px 0; line-height: 1.8; }
     }
 
     .page-heading {
@@ -120,17 +159,6 @@
       color: #aaa;
       line-height: 1.9;
     }
-    .maintenance-note {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 0.76rem;
-      background: #fff8fa;
-      border: 1px solid #ffcdd8;
-      border-radius: 8px;
-      padding: 10px 18px;
-      color: #c08090;
-      line-height: 1.8;
-    }
 
     footer {
       background: #fff0f4;
@@ -144,21 +172,8 @@
     .footer-nav a:hover { color: #e0607a; }
     .footer-copy { font-size: 0.72rem; color: #d0a0b0; margin-bottom: 6px; }
     @media (max-width: 520px) {
-      .footer-nav {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        max-width: 320px;
-        margin: 0 auto 12px;
-        row-gap: 8px;
-      }
-      .footer-nav a {
-        grid-column: span 2;
-        width: auto;
-        border-right: none;
-        font-size: 0.78rem;
-        padding: 2px 0;
-        line-height: 1.9;
-      }
+      .footer-nav { display: grid; grid-template-columns: repeat(6, 1fr); max-width: 320px; margin: 0 auto 12px; row-gap: 8px; }
+      .footer-nav a { grid-column: span 2; width: auto; border-right: none; font-size: 0.78rem; padding: 2px 0; line-height: 1.9; }
       .footer-nav a:nth-child(4) { grid-column: 2 / span 2; }
       .footer-nav a:nth-child(5) { grid-column: 4 / span 2; }
     }
@@ -167,35 +182,43 @@
 <body>
 
 <header class="site-header">
-  <div class="blog-title">星見河りんなのブログ☆</div>
-  <div class="blog-subtitle">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+  <div class="blog-title" data-ja="星見河りんなのブログ☆" data-en="Rinna Hoshimikawa Official Blog ☆">星見河りんなのブログ☆</div>
+  <div class="blog-subtitle" data-ja="最強アイドルへの道 〜 輝く未来を目指して ✦" data-en="The Road to the Greatest Japanese Idol 〜 Aiming for a Shining Future ✦">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
 </header>
 
 <nav class="site-nav">
   <a href="index.html">HOME</a>
-  <a href="schedule.html">スケジュール</a>
-  <a href="profile.html">プロフィール</a>
-  <a href="contact.html" class="active">お問い合わせ</a>
+  <a href="schedule.html" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+  <a href="profile.html" data-ja="プロフィール" data-en="Profile">プロフィール</a>
+  <a href="contact.html" class="active" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
 </nav>
+
+<div class="lang-bar">
+  <div class="lang-dropdown">
+    <button class="lang-trigger" id="lang-trigger" onclick="toggleLangMenu()">Languages</button>
+    <div class="lang-menu" id="lang-menu">
+      <button onclick="setLang('ja')" id="lang-ja">JA</button>
+      <button onclick="setLang('en')" id="lang-en">EN</button>
+    </div>
+  </div>
+</div>
 
 <div class="page-wrap">
 
-  <div class="page-heading">お問い合わせ</div>
-  <div class="page-desc">お仕事のご依頼・ファンレターなど、お気軽にどうぞ</div>
+  <div class="page-heading" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</div>
+  <div class="page-desc" data-ja="お仕事のご依頼・ファンレターなど、お気軽にどうぞ" data-en="Work inquiries, fan mail, and more — feel free to reach out">お仕事のご依頼・ファンレターなど、お気軽にどうぞ</div>
 
-  <div class="notice-box">
-    <strong>【ご注意】</strong><br>
-    ・お仕事のご依頼は所属事務所「スターライトプロ」宛にお送りください。rin<br>
-    ・ファンの方からのメッセージは必ず読んでいます。返信はできない場合があります。<br>
-    ・誹謗中傷・個人を特定しようとする内容はお断りします。
+  <div class="notice-box" id="notice-box">
+    <strong data-ja="【ご注意】" data-en="[Notice]">【ご注意】</strong><br>
+    <span data-ja-html="・お仕事のご依頼は所属事務所「スターライトプロ」宛にお送りください。<strong>rin</strong>" data-en-html="・Please direct all work inquiries to our agency, &quot;Starlight Pro&quot;. <strong>rin</strong>">・お仕事のご依頼は所属事務所「スターライトプロ」宛にお送りください。<strong>rin</strong></span><br>
+    <span data-ja="・ファンの方からのメッセージは必ず読んでいます。返信はできない場合があります。" data-en="・I read every message from fans. Please note that I may not always be able to reply.">・ファンの方からのメッセージは必ず読んでいます。返信はできない場合があります。</span><br>
+    <span data-ja="・誹謗中傷・個人を特定しようとする内容はお断りします。" data-en="・Hateful messages or attempts to identify personal information will not be accepted.">・誹謗中傷・個人を特定しようとする内容はお断りします。</span>
   </div>
 
   <div class="maintenance-box">
     <div class="maintenance-icon">🔧</div>
-    <div class="maintenance-title">現在システムメンテナンス中です</div>
-    <div class="maintenance-body">
-      お問い合わせフォームは現在ご利用いただけません。
-    </div>
+    <div class="maintenance-title" data-ja="現在システムメンテナンス中です" data-en="System Maintenance in Progress">現在システムメンテナンス中です</div>
+    <div class="maintenance-body" data-ja="お問い合わせフォームは現在ご利用いただけません。" data-en="The contact form is currently unavailable.">お問い合わせフォームは現在ご利用いただけません。</div>
   </div>
 
 </div>
@@ -203,15 +226,40 @@
 <footer>
   <nav class="footer-nav">
     <a href="index.html">HOME</a>
-    <a href="schedule.html">スケジュール</a>
-    <a href="profile.html">プロフィール</a>
-    <a href="contact.html">お問い合わせ</a>
-    <a href="admin.html">管理</a>
+    <a href="schedule.html" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
+    <a href="profile.html" data-ja="プロフィール" data-en="Profile">プロフィール</a>
+    <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+    <a href="admin.html" data-ja="管理" data-en="Admin">管理</a>
   </nav>
-  <div class="footer-copy">© 星見河りんな Official Blog All Rights Reserved.</div>
+  <div class="footer-copy" data-ja="© 星見河りんな Official Blog All Rights Reserved." data-en="© Rinna Hoshimikawa Official Blog All Rights Reserved.">© 星見河りんな Official Blog All Rights Reserved.</div>
 </footer>
 
 <script>
+  function toggleLangMenu() {
+    document.getElementById('lang-menu').classList.toggle('open');
+  }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.lang-dropdown')) {
+      document.getElementById('lang-menu').classList.remove('open');
+    }
+  });
+  function setLang(lang) {
+    localStorage.setItem('argLang', lang);
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ja;
+    });
+    document.querySelectorAll('[data-ja-html]').forEach(el => {
+      el.innerHTML = lang === 'en' ? el.dataset.enHtml : el.dataset.jaHtml;
+    });
+    document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
+    document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-menu').classList.remove('open');
+  }
+  const paramLang = new URLSearchParams(location.search).get('lang');
+  const savedLang = paramLang || localStorage.getItem('argLang') || 'ja';
+  if (savedLang === 'en') setLang('en');
+  else document.getElementById('lang-ja').classList.add('active');
+
   if (
     localStorage.getItem('argLiked_post-8') === 'true' &&
     localStorage.getItem('argProfileVisited') === 'true'
