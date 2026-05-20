@@ -1230,6 +1230,9 @@ Rinna☆" data-ko="이 사이트 어딘가에, 내가 갇혀 있는 예전 사�
   });
   function setLang(lang) {
     localStorage.setItem('argLang', lang);
+    const url = new URL(location.href);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
     document.querySelectorAll('[data-ja]').forEach(el => {
       el.textContent = el.dataset[lang] || el.dataset.ja;
     });

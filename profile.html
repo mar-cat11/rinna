@@ -368,6 +368,9 @@ Nice to meet you all ☆" data-ko="처음 뵙겠습니다, 호시미카와 린�
   });
   function setLang(lang) {
     localStorage.setItem('argLang', lang);
+    const url = new URL(location.href);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
     document.querySelectorAll('[data-ja]').forEach(el => {
       el.textContent = el.dataset[lang] || el.dataset.ja;
     });
