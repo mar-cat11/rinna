@@ -217,15 +217,15 @@
 <body>
 
 <header class="site-header">
-  <div class="blog-title" data-ja="星見河りんなのブログ☆" data-en="Rinna Hoshimikawa Official Blog ☆">星見河りんなのブログ☆</div>
-  <div class="blog-subtitle" data-ja="最強アイドルへの道 〜 輝く未来を目指して ✦" data-en="The Road to the Greatest Japanese Idol 〜 Aiming for a Shining Future ✦">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
+  <div class="blog-title" data-ja="星見河りんなのブログ☆" data-en="Rinna Hoshimikawa Official Blog ☆" data-ko="호시미카와 린나의 블로그☆">星見河りんなのブログ☆</div>
+  <div class="blog-subtitle" data-ja="最強アイドルへの道 〜 輝く未来を目指して ✦" data-en="The Road to the Greatest Japanese Idol 〜 Aiming for a Shining Future ✦" data-ko="최강 아이돌의 길 〜 빛나는 미래를 향해 ✦">最強アイドルへの道 〜 輝く未来を目指して ✦</div>
 </header>
 
 <nav class="site-nav">
   <a href="index.html">HOME</a>
-  <a href="schedule.html" class="active" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
-  <a href="profile.html" data-ja="プロフィール" data-en="Profile">プロフィール</a>
-  <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
+  <a href="schedule.html" class="active" data-ja="スケジュール" data-en="Schedule" data-ko="스케줄">スケジュール</a>
+  <a href="profile.html" data-ja="プロフィール" data-en="Profile" data-ko="프로필">プロフィール</a>
+  <a href="contact.html" data-ja="お問い合わせ" data-en="Contact" data-ko="문의하기">お問い合わせ</a>
 </nav>
 
 <div class="lang-bar">
@@ -234,13 +234,14 @@
     <div class="lang-menu" id="lang-menu">
       <button onclick="setLang('ja')" id="lang-ja">JA</button>
       <button onclick="setLang('en')" id="lang-en">EN</button>
+      <button onclick="setLang('ko')" id="lang-ko">KO</button>
     </div>
   </div>
 </div>
 
 <div class="page-wrap">
   <div class="page-heading">SCHEDULE</div>
-  <div class="page-desc" data-ja="ライブ・イベント・出演情報" data-en="Lives, Events &amp; Appearances">ライブ・イベント・出演情報</div>
+  <div class="page-desc" data-ja="ライブ・イベント・出演情報" data-en="Lives, Events &amp; Appearances" data-ko="라이브·이벤트·출연 정보">ライブ・イベント・出演情報</div>
   <div class="notice-box" id="notice-box"></div>
   <div id="schedule-area"></div>
 </div>
@@ -248,12 +249,12 @@
 <footer>
   <nav class="footer-nav">
     <a href="index.html">HOME</a>
-    <a href="schedule.html" data-ja="スケジュール" data-en="Schedule">スケジュール</a>
-    <a href="profile.html" data-ja="プロフィール" data-en="Profile">プロフィール</a>
-    <a href="contact.html" data-ja="お問い合わせ" data-en="Contact">お問い合わせ</a>
-    <a href="admin.html" data-ja="管理" data-en="Admin">管理</a>
+    <a href="schedule.html" data-ja="スケジュール" data-en="Schedule" data-ko="스케줄">スケジュール</a>
+    <a href="profile.html" data-ja="プロフィール" data-en="Profile" data-ko="프로필">プロフィール</a>
+    <a href="contact.html" data-ja="お問い合わせ" data-en="Contact" data-ko="문의하기">お問い合わせ</a>
+    <a href="admin.html" data-ja="管理" data-en="Admin" data-ko="관리">管理</a>
   </nav>
-  <div class="footer-copy" data-ja="© 星見河りんな Official Blog All Rights Reserved." data-en="© Rinna Hoshimikawa Official Blog All Rights Reserved.">© 星見河りんな Official Blog All Rights Reserved.</div>
+  <div class="footer-copy" data-ja="© 星見河りんな Official Blog All Rights Reserved." data-en="© Rinna Hoshimikawa Official Blog All Rights Reserved." data-ko="© 호시미카와 린나 Official Blog All Rights Reserved.">© 星見河りんな Official Blog All Rights Reserved.</div>
 </footer>
 
 <script>
@@ -279,6 +280,10 @@
       const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       return `${d.getMonth()+1}/${d.getDate()} (${days[d.getDay()]})`;
     }
+    if (lang === 'ko') {
+      const days = ['일','월','화','수','목','금','토'];
+      return `${d.getMonth()+1}월 ${d.getDate()}일(${days[d.getDay()]})`;
+    }
     const w = ['日','月','火','水','木','金','土'];
     return `${d.getMonth()+1}/${d.getDate()}（${w[d.getDay()]}）`;
   }
@@ -288,6 +293,7 @@
       const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
       return `${months[d.getMonth()]} ${d.getFullYear()}`;
     }
+    if (lang === 'ko') return `${d.getFullYear()}년 ${d.getMonth()+1}월`;
     return `${d.getFullYear()}年${d.getMonth()+1}月`;
   }
 
@@ -296,67 +302,82 @@
       offset: -38,
       title: 'スターライトプロ 合同ミニライブ',
       title_en: 'Starlight Pro Joint Mini Live',
+      title_ko: '스타라이트프로 합동 미니라이브',
       detail: '東京・下北沢 SHELTER',
       detail_en: 'Tokyo · Shimokitazawa SHELTER',
+      detail_ko: '도쿄·시모키타자와 SHELTER',
       status: 'done'
     },
     {
       offset: -22,
       title: '新人アーティスト発表会',
       title_en: 'New Artist Showcase',
+      title_ko: '신인 아티스트 발표회',
       detail: '渋谷区文化センター 大ホール',
       detail_en: 'Shibuya Cultural Center, Main Hall',
+      detail_ko: '시부야구 문화센터 대홀',
       status: 'done'
     },
     {
       offset: -10,
       title: 'ファン交流イベント（サイン会）',
       title_en: 'Fan Meet & Sign Event',
+      title_ko: '팬 교류 이벤트(사인회)',
       detail: '池袋 東武百貨店 イベントスペース',
       detail_en: 'Ikebukuro Tobu Department Store, Event Space',
+      detail_ko: '이케부쿠로 도부백화점 이벤트 스페이스',
       status: 'done'
     },
     {
       offset: -6,
       title: 'WEB生配信ライブ',
       title_en: 'WEB Live Stream',
+      title_ko: '웹 생방송 라이브',
       detail: 'ニコニコ生放送 ／ YouTube Live',
       detail_en: 'NicoNico Live / YouTube Live',
+      detail_ko: '니코니코 생방송 / YouTube Live',
       status: 'cancelled',
       note: '出演見合わせ',
-      note_en: 'Withdrawn'
+      note_en: 'Withdrawn',
+      note_ko: '출연 취소'
     },
     {
       offset: 9,
       title: 'ファンミーティング vol.1 "<strong>idle</strong>"',
       title_en: 'Fan Meeting vol.1 "<strong>idle</strong>"',
+      title_ko: '팬 미팅 vol.1 "<strong>idle</strong>"',
       detail: '会場・時間 調整中',
       detail_en: 'Venue & time TBD',
+      detail_ko: '장소·시간 조정 중',
       status: 'pending'
     },
     {
       offset: 17,
       title: '新曲発表イベント',
       title_en: 'New Song Release Event',
+      title_ko: '신곡 발표 이벤트',
       detail: '会場・時間 調整中',
       detail_en: 'Venue & time TBD',
+      detail_ko: '장소·시간 조정 중',
       status: 'pending'
     },
     {
       offset: 25,
       title: 'スターライトプロ 夏祭りライブ',
       title_en: 'Starlight Pro Summer Festival Live',
+      title_ko: '스타라이트프로 여름 축제 라이브',
       detail: '会場・詳細は決まり次第お知らせします',
       detail_en: 'Venue & details to be announced',
+      detail_ko: '장소·상세는 정해지는 대로 공지합니다',
       status: 'upcoming'
     }
   ];
 
   function badge(e, lang) {
-    if (e.status === 'done')      return `<span class="event-badge badge-done">${lang === 'en' ? 'Done' : '終了'}</span>`;
-    if (e.status === 'cancelled') return `<span class="event-badge badge-cancelled">${lang === 'en' ? (e.note_en || 'Cancelled') : (e.note || '中止')}</span>`;
-    if (e.status === 'pending')   return `<span class="event-badge badge-pending">${lang === 'en' ? 'TBD' : '調整中'}</span>`;
-    return `<span class="event-badge badge-upcoming">${lang === 'en' ? 'Upcoming' : '予定'}</span>`;
+    if (e.status === 'done')      return `<span class="event-badge badge-done">${lang === 'en' ? 'Done' : lang === 'ko' ? '종료' : '終了'}</span>`;
+    if (e.status === 'cancelled') return `<span class="event-badge badge-cancelled">${lang === 'en' ? (e.note_en || 'Cancelled') : lang === 'ko' ? (e.note_ko || '취소') : (e.note || '中止')}</span>`;
+    if (e.status === 'pending')   return `<span class="event-badge badge-pending">${lang === 'en' ? 'TBD' : lang === 'ko' ? '조정 중' : '調整中'}</span>`;
+    return `<span class="event-badge badge-upcoming">${lang === 'en' ? 'Upcoming' : lang === 'ko' ? '예정' : '予定'}</span>`;
   }
 
   function render(lang) {
@@ -378,8 +399,8 @@
         const rowClass = e.status === 'done' ? 'past'
                        : e.status === 'cancelled' ? 'cancelled'
                        : e.status === 'pending'   ? 'pending' : '';
-        const title  = lang === 'en' ? e.title_en  : e.title;
-        const detail = lang === 'en' ? e.detail_en : e.detail;
+        const title  = lang === 'en' ? e.title_en  : lang === 'ko' ? (e.title_ko  || e.title)  : e.title;
+        const detail = lang === 'en' ? e.detail_en : lang === 'ko' ? (e.detail_ko || e.detail) : e.detail;
         block.innerHTML += `
           <div class="event-row ${rowClass}">
             <div class="event-date">${fmt(e.date, lang)}</div>
@@ -398,6 +419,8 @@
     const noticeDate = fmt(addDays(base, -6), lang);
     const html = lang === 'en'
       ? `<strong>[Notice]</strong> The "WEB Live Stream" scheduled for ${noticeDate} has been withdrawn due to the performer's circumstances. Details will be announced as soon as they are available.`
+      : lang === 'ko'
+      ? `<strong>【공지】</strong>${noticeDate} 예정이었던 「웹 생방송 라이브」는 출연자 사정으로 출연이 취소되었습니다. 상세는 정해지는 대로 공지합니다.`
       : `<strong>【お知らせ】</strong>${noticeDate} 予定の「WEB生配信ライブ」は出演者の都合により出演見合わせとなりました。詳細は決まり次第お知らせします。`;
     document.getElementById('notice-box').innerHTML = html;
   }
@@ -414,10 +437,11 @@
   function setLang(lang) {
     localStorage.setItem('argLang', lang);
     document.querySelectorAll('[data-ja]').forEach(el => {
-      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ja;
+      el.textContent = el.dataset[lang] || el.dataset.ja;
     });
     document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
     document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+    document.getElementById('lang-ko').classList.toggle('active', lang === 'ko');
     document.getElementById('lang-menu').classList.remove('open');
     render(lang);
     renderNotice(lang);
@@ -426,6 +450,7 @@
   const paramLang = new URLSearchParams(location.search).get('lang');
   const savedLang = paramLang || localStorage.getItem('argLang') || 'ja';
   if (savedLang === 'en') setLang('en');
+  else if (savedLang === 'ko') setLang('ko');
   else {
     document.getElementById('lang-ja').classList.add('active');
     render('ja');
