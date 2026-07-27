@@ -313,11 +313,10 @@
   const shareTextJa = 'なんか、おかしなアイドルブログを見つけたんだけど...';
   const shareTextEn = 'I found this unusual idol blog...';
   const shareTextKo = '뭔가 이상한 아이돌 블로그를 발견했는데...';
-  const shareUrl = 'https://mar-cat11.github.io/rinna/news-bad.html';
-  const shareUrlKo = 'https://x.com/app_cat_AI/status/2056984146803826690';
+  const shareUrl = 'https://mar-cat11.github.io/rinna/';
   function updateShareLink(lang) {
     const text = lang === 'en' ? shareTextEn : lang === 'ko' ? shareTextKo : shareTextJa;
-    const url = lang === 'ko' ? shareUrlKo : shareUrl;
+    const url = shareUrl;
     document.getElementById('share-x-btn').href =
       'https://x.com/intent/post?text=' + encodeURIComponent(text + '\n' + url);
   }
